@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sammanfattningsslides — NO 7-9</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .launcher {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF7043 0%, #FF5722 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        select {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            transition: all 0.2s ease;
+        }
+
+        select:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #FF7043;
+            box-shadow: 0 0 0 3px rgba(255, 112, 67, 0.2);
+        }
+
+        select option {
+            background: #1a1a3e;
+            color: #fff;
+        }
+
+        .btn-launch {
+            width: 100%;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FF7043 0%, #E64A19 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-launch:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 112, 67, 0.4);
+        }
+
+        .btn-launch:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .preview {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .preview strong {
+            color: #FF7043;
+        }
+
+        .slide-id {
+            position: fixed;
+            bottom: 0.75rem;
+            left: 1rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.65rem;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="launcher">
+        <div class="logo">
+            <h1>📽️ Sammanfattningsslides</h1>
+            <p>Välj arbetsområde och klass för att visa recap</p>
+        </div>
+
+        <div class="form-group">
+            <label>Arbetsområde</label>
+            <select id="workArea" onchange="updateClasses()">
+                <option value="">— Välj arbetsområde —</option>
+                <option value="solsystemet">🪐 Solsystemet och universum</option>
+                <option value="ekologi" disabled>🌿 Ekologi (kommer snart)</option>
+                <option value="kemi" disabled>🧪 Kemi (kommer snart)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Klass / Pass</label>
+            <select id="classPass" onchange="updatePreview()">
+                <option value="">— Välj klass —</option>
+            </select>
+        </div>
+
+        <button class="btn-launch" id="launchBtn" disabled onclick="launchSlide()">
+            🚀 Visa slide
+        </button>
+
+        <div class="preview" id="preview">
+            Välj arbetsområde och klass ovan
+        </div>
+    </div>
+
+    <div class="slide-id">LAUNCHER-V1</div>
+
+    <script>
+        // Slide-konfiguration
+        const slideConfig = {
+            solsystemet: {
+                name: "Solsystemet och universum",
+                classes: [
+                    { id: "a1-pass1", label: "A1-25 — Pass 1 (32:40)", slide: "the_martian_recap_pass1.html" },
+                    { id: "a1-pass2", label: "A1-25 — Pass 2 (49:30)", slide: "the_martian_recap_pass2_a1.html" },
+                    { id: "d1-pass1", label: "D1-25 — Pass 1 (32:40)", slide: "the_martian_recap_pass1.html" },
+                    { id: "d1-pass2", label: "D1-25 — Pass 2 (53:25)", slide: "the_martian_recap_pass2_d1.html" },
+                    { id: "e1-pass1", label: "E1-25 — Pass 1 (32:55)", slide: "the_martian_recap_pass1.html" },
+                    { id: "e1-pass2", label: "E1-25 — Pass 2 (49:30)", slide: "the_martian_recap_pass2_e1.html" }
+                ],
+                basePath: "slides/solsystemet/"
+            }
+        };
+
+        function updateClasses() {
+            const workArea = document.getElementById('workArea').value;
+            const classSelect = document.getElementById('classPass');
+
+            classSelect.innerHTML = '<option value="">— Välj klass —</option>';
+
+            if (workArea && slideConfig[workArea]) {
+                slideConfig[workArea].classes.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.id;
+                    opt.textContent = c.label;
+                    classSelect.appendChild(opt);
+                });
+            }
+
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const workArea = document.getElementById('workArea').value;
+            const classPass = document.getElementById('classPass').value;
+            const preview = document.getElementById('preview');
+            const btn = document.getElementById('launchBtn');
+
+            if (workArea && classPass && slideConfig[workArea]) {
+                const config = slideConfig[workArea];
+                const classInfo = config.classes.find(c => c.id === classPass);
+                if (classInfo) {
+                    preview.innerHTML = `<strong>${config.name}</strong><br>${classInfo.label}`;
+                    btn.disabled = false;
+                    return;
+                }
+            }
+
+            preview.innerHTML = 'Välj arbetsområde och klass ovan';
+            btn.disabled = true;
+        }
+
+        function launchSlide() {
+            const workArea = document.getElementById('workArea').value;
+            const classPass = document.getElementById('classPass').value;
+
+            if (workArea && classPass && slideConfig[workArea]) {
+                const config = slideConfig[workArea];
+                const classInfo = config.classes.find(c => c.id === classPass);
+                if (classInfo) {
+                    // För nu: relativ sökväg, senare: GitHub Pages URL
+                    window.location.href = config.basePath + classInfo.slide;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
