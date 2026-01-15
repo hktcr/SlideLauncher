@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solsystemet och universum — Introduktion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            background: url('https://hktcr.github.io/SlideLauncher/slides/assets/solsystemet_intro.png') center center / cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 4rem;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 80%;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .subtitle {
+            font-size: 1.6rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .subtitle em {
+            color: #A78BFA;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 2rem;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .slide-id {
+            position: absolute;
+            bottom: 0.75rem;
+            left: 1rem;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.65rem;
+            font-family: monospace;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <div class="content">
+            <span class="badge">NO 7-9</span>
+            <h1>Solsystemet och universum</h1>
+            <p class="subtitle">
+                Vår plats i kosmos. Från <em>planeterna</em> i vårt solsystem
+                till <em>galaxer</em> miljontals ljusår bort.
+                Vad krävs för att liv ska kunna existera?
+            </p>
+        </div>
+
+        <div class="footer">Arbetsområde VT 2026</div>
+        <div class="slide-id">INTRO-SOLSYSTEMET</div>
+    </div>
+</body>
+
+</html>
