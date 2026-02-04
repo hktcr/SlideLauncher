@@ -40,8 +40,10 @@
             background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
-            padding: clamp(2rem, 6%, 4rem);
-            padding-bottom: 6rem;
+            min-height: 100dvh;
+            padding: clamp(1.5rem, 5vw, 4rem);
+            padding-bottom: 8rem;
+            overflow-x: hidden;
         }
 
         .grid-overlay {
@@ -96,10 +98,12 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: min(900px, 92%);
             margin: 0 auto;
             position: relative;
             z-index: 10;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .header {
@@ -386,6 +390,56 @@
                 font-size: 1.1rem;
                 padding: 1rem 1.5rem;
             }
+
+            .typewriter-text {
+                font-size: 1rem;
+                line-height: 1.9;
+            }
+
+            .section-header {
+                font-size: 1.1rem;
+            }
+
+            .header {
+                margin-bottom: 2rem;
+            }
+
+            .icon-container {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .quote-box {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .controls {
+                padding: 0.6rem 1rem;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .typewriter-text {
+                font-size: 0.9rem;
+                line-height: 1.8;
+            }
+
+            .formula-box {
+                font-size: 0.95rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .section-header {
+                font-size: 1rem;
+                gap: 0.5rem;
+            }
+
+            .section-icon {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -464,7 +518,7 @@
         // - Del 2 och 3 sammanslagna
         // - Frågorna visas en i taget
         // - "restprodukt" → enklare ord
-        
+
         const sections = [
             {
                 id: 'section1',
@@ -691,7 +745,7 @@ Fakta är inte motsatsen till förståelse. Fakta är *verktyget*.`,
 
             document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
             document.querySelectorAll('.quote-box, .formula-box, .source-footer').forEach(e => e.classList.remove('visible'));
-            
+
             // Clear all continuation texts
             ['text3b', 'text3c', 'text3d', 'text3e'].forEach(id => {
                 const el = document.getElementById(id);
