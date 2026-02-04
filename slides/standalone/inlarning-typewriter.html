@@ -627,6 +627,8 @@ Smal träning = du kan bara svara på exakt det du övat.`,
             typingInterval = setInterval(typeChar, 25);
         }
 
+        let hasStarted = false;
+
         function handleNext() {
             if (isTyping) {
                 // Skip to end of current text
@@ -645,6 +647,13 @@ Smal träning = du kan bara svara på exakt det du övat.`,
 
             if (!waitingForInput) return;
             hideWaiting();
+
+            // First click starts typing on slide 1
+            if (!hasStarted) {
+                hasStarted = true;
+                startTyping();
+                return;
+            }
 
             // Move to next slide
             currentSlide++;
@@ -666,6 +675,7 @@ Smal träning = du kan bara svara på exakt det du övat.`,
             currentSlide = 0;
             currentChar = 0;
             isTyping = false;
+            hasStarted = false;
             cursor.classList.remove('hidden');
             hideWaiting();
 
@@ -675,7 +685,7 @@ Smal träning = du kan bara svara på exakt det du övat.`,
             showSlide(0);
             initText(slides[0].textId, slides[0].text);
             updateProgress();
-            setTimeout(startTyping, 600);
+            showWaiting(true);
         }
 
         nextBtn.addEventListener('click', handleNext);
