@@ -427,7 +427,7 @@
     <span class="cursor" id="cursor"></span>
 
     <div class="waiting-indicator" id="waitingIndicator">
-        Tryck SPACE för att fortsätta ▶
+        Tryck SPACE för att börja ▶
     </div>
 
     <div class="controls">
@@ -590,8 +590,11 @@ Smal träning = du kan bara svara på exakt det du övat.`,
             progressText.textContent = `${currentSlide + 1}/${slides.length}`;
         }
 
-        function showWaiting() {
+        function showWaiting(isStart = false) {
             waitingForInput = true;
+            waitingIndicator.textContent = isStart ?
+                'Tryck SPACE för att börja ▶' :
+                'Tryck SPACE för att fortsätta ▶';
             waitingIndicator.classList.add('visible');
         }
 
@@ -687,10 +690,10 @@ Smal träning = du kan bara svara på exakt det du övat.`,
             }
         });
 
-        // Initialize
+        // Initialize - wait for user to start
         initText(slides[0].textId, slides[0].text);
         updateProgress();
-        setTimeout(startTyping, 800);
+        showWaiting(true); // Wait for user to press SPACE to begin
     </script>
 </body>
 
