@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hur lärande fungerar — NP-träning</title>
+    <title>Hur lärande fungerar</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;600&display=swap"
         rel="stylesheet">
@@ -44,7 +44,6 @@
             padding-bottom: 6rem;
         }
 
-        /* Grid overlay */
         .grid-overlay {
             position: fixed;
             top: 0;
@@ -59,7 +58,6 @@
             z-index: 1;
         }
 
-        /* Animated orbs */
         .bg-orb {
             position: fixed;
             border-radius: 50%;
@@ -97,7 +95,6 @@
             }
         }
 
-        /* Main container */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -105,7 +102,6 @@
             z-index: 10;
         }
 
-        /* Header */
         .header {
             display: flex;
             align-items: center;
@@ -148,7 +144,6 @@
             }
         }
 
-        /* Section styling */
         .section {
             margin-bottom: 3rem;
             opacity: 0;
@@ -176,7 +171,6 @@
             font-size: 1.5rem;
         }
 
-        /* Typewriter text */
         .typewriter-text {
             font-size: clamp(1rem, 2.5vw, 1.35rem);
             line-height: 2.1;
@@ -237,7 +231,6 @@
             }
         }
 
-        /* Quote boxes */
         .quote-box {
             margin: 1.5rem 0;
             padding: 1.2rem 1.5rem;
@@ -264,7 +257,6 @@
             font-weight: 500;
         }
 
-        /* Formula box */
         .formula-box {
             margin: 1.5rem 0;
             padding: 1.5rem 2rem;
@@ -293,7 +285,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* Source footer */
         .source-footer {
             margin-top: 2rem;
             padding-top: 1rem;
@@ -309,7 +300,6 @@
             opacity: 1;
         }
 
-        /* Controls */
         .controls {
             position: fixed;
             bottom: 1.5rem;
@@ -318,7 +308,7 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            background: rgba(13, 17, 23, 0.9);
+            background: rgba(13, 17, 23, 0.95);
             padding: 0.8rem 1.5rem;
             border-radius: 12px;
             border: 1px solid rgba(104, 211, 145, 0.2);
@@ -341,11 +331,54 @@
             background: rgba(104, 211, 145, 0.2);
         }
 
+        .control-btn.primary {
+            background: rgba(104, 211, 145, 0.3);
+            border: 1px solid var(--bio-glow);
+        }
+
+        .control-btn.primary:hover {
+            background: rgba(104, 211, 145, 0.5);
+        }
+
         .progress-text {
             font-size: 0.75rem;
             color: var(--text-muted);
-            min-width: 80px;
+            min-width: 60px;
             text-align: center;
+        }
+
+        .waiting-indicator {
+            position: fixed;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(104, 211, 145, 0.2);
+            border: 1px solid var(--bio-glow);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--bio-glow);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 99;
+        }
+
+        .waiting-indicator.visible {
+            opacity: 1;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
         }
 
         @media (max-width: 768px) {
@@ -363,59 +396,49 @@
     <div class="grid-overlay"></div>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="icon-container">🧠</div>
             <div class="header-text">Hur lärande verkligen fungerar</div>
         </div>
 
-        <!-- SECTION 1: Hjärnan bygger -->
+        <!-- DEL 1: LEGO -->
         <div class="section" id="section1">
             <div class="section-header">
                 <span class="section-icon">🧱</span>
-                <span>Del 1 av 4 — Hjärnan bygger på det du redan vet</span>
+                <span>Del 1 av 3: Kunskap bygger på kunskap</span>
             </div>
             <div class="typewriter-text" id="text1"></div>
         </div>
 
-        <!-- SECTION 2: Minnet är spåret -->
+        <!-- DEL 2: Minne + Verktyg (sammanslaget) -->
         <div class="section" id="section2">
             <div class="section-header">
                 <span class="section-icon">💭</span>
-                <span>Del 2 av 4 — Minnet är spåret av tanken</span>
+                <span>Del 2 av 3: Tänkande lämnar spår</span>
             </div>
             <div class="typewriter-text" id="text2"></div>
             <div class="quote-box" id="quote1">
-                💡 Det du <em>tänker på</em> — det kommer du ihåg. Anteckningar tvingar dig att <em>bearbeta</em>.
+                💡 Anteckningar är inte fusklapp. De är <em>ditt byggmaterial</em> för att tänka.
             </div>
         </div>
 
-        <!-- SECTION 3: Förståelse kräver fakta -->
+        <!-- DEL 3: Fotosyntes-exemplet (uppdelat i steg) -->
         <div class="section" id="section3">
             <div class="section-header">
-                <span class="section-icon">🔧</span>
-                <span>Del 3 av 4 — Förståelse kräver fakta</span>
+                <span class="section-icon">🌱</span>
+                <span>Del 3 av 3: Exemplet fotosyntes</span>
             </div>
             <div class="typewriter-text" id="text3"></div>
-            <div class="quote-box" id="quote2">
-                🎯 Anteckningar är inte fusklapp — de är <em>ditt byggmaterial</em> för tänkande.
-            </div>
-        </div>
-
-        <!-- SECTION 4: Exemplet fotosyntes -->
-        <div class="section" id="section4">
-            <div class="section-header">
-                <span class="section-icon">🌱</span>
-                <span>Del 4 av 4 — Varför utantill inte räcker</span>
-            </div>
-            <div class="typewriter-text" id="text4"></div>
             <div class="formula-box" id="formula1">
                 <div class="label">Fotosyntes</div>
                 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
             </div>
-            <div class="typewriter-text" id="text4b"></div>
-            <div class="quote-box" id="quote3">
-                🔧 <em>Formeln är ett verktyg</em> — inte ett facit. Anteckningarna lär dig använda verktyget.
+            <div class="typewriter-text" id="text3b"></div>
+            <div class="typewriter-text" id="text3c"></div>
+            <div class="typewriter-text" id="text3d"></div>
+            <div class="typewriter-text" id="text3e"></div>
+            <div class="quote-box" id="quote2">
+                🔧 <em>Formeln är ett verktyg</em>, inte ett facit. Dina anteckningar lär dig använda verktyget.
             </div>
             <div class="source-footer" id="source">
                 📚 Källa: Willingham (2021), Lgr22 kommentarmaterial
@@ -425,128 +448,112 @@
         <span class="cursor" id="cursor"></span>
     </div>
 
+    <div class="waiting-indicator" id="waitingIndicator">
+        Tryck SPACE för att fortsätta ▶
+    </div>
+
     <div class="controls">
-        <button class="control-btn" id="pauseBtn">⏸️ Pausa</button>
-        <span class="progress-text" id="progress">0%</span>
-        <button class="control-btn" id="skipBtn">⏭️ Hoppa</button>
-        <button class="control-btn" id="replayBtn">🔄 Replay</button>
+        <button class="control-btn primary" id="nextBtn">▶ Fortsätt</button>
+        <span class="progress-text" id="progress">Del 1/3</span>
+        <button class="control-btn" id="replayBtn">🔄 Börja om</button>
     </div>
 
     <script>
+        // Reviderat innehåll efter VEP-elevpanelens feedback
+        // - Svenskt citat istället för engelskt
+        // - Del 2 och 3 sammanslagna
+        // - Frågorna visas en i taget
+        // - "restprodukt" → enklare ord
+        
         const sections = [
             {
                 id: 'section1',
                 textId: 'text1',
-                text: `Nya kunskaper fastnar på *gamla kunskaper* — som LEGO-bitar.
+                text: `Nya kunskaper fastnar på *gamla kunskaper*, precis som LEGO-bitar.
 
-Utan en grund att bygga på, faller allt.
+Utan grund att bygga på faller allt.
 
-Varje lektion lägger en ny bit. Missar du en bit får nästa svårare att sitta.`,
+Varje lektion lägger en ny bit. Missar du en bit blir nästa svårare att fästa.`,
                 extras: []
             },
             {
                 id: 'section2',
                 textId: 'text2',
-                text: `~"Memory is the residue of thought"~ — Willingham
+                text: `"Minnet är spåret av tanken." (Willingham)
 
-Det du *aktivt tänker på* är det du kommer ihåg.
+Det du *aktivt tänker på* kommer du ihåg.
+Att bara läsa räcker inte. Att *skriva*, *förklara*, *rita*, det fastnar.
 
-Att bara läsa räcker inte. Att *skriva*, *förklara*, *rita* — det fastnar.`,
+Du kan inte tänka utan material att tänka *med*.
+Fakta är inte motsatsen till förståelse. Fakta är *verktyget*.`,
                 extras: ['quote1']
             },
             {
                 id: 'section3',
                 textId: 'text3',
-                text: `Man kan inte tänka djupt utan material att tänka *med*.
-
-Fakta är inte motsatsen till förståelse — fakta är *verktyget* för förståelse.
-
-Era anteckningar + sammanfattningen = *allt ni behöver*.`,
-                extras: ['quote2']
-            },
-            {
-                id: 'section4',
-                textId: 'text4',
                 text: `Du KAN lära dig fotosyntesformeln ~utantill~...`,
                 extras: ['formula1'],
-                continueWith: {
-                    textId: 'text4b',
-                    text: `Men på provet frågas:
+                continueWith: [
+                    {
+                        textId: 'text3b',
+                        text: `Men på provet frågas:
 
-!Varför vissnar en växt som står i mörker?!
-!Varför andas vi ut CO₂ men andas in O₂?!
-!Vad händer med en växt som får vatten men inget ljus?!
-
-Om du inte *förstår* vad formeln betyder:
+!Varför vissnar en växt som står i mörker?!`,
+                        extras: []
+                    },
+                    {
+                        textId: 'text3c',
+                        text: `!Varför andas vi ut CO₂ men andas in O₂?!`,
+                        extras: []
+                    },
+                    {
+                        textId: 'text3d',
+                        text: `!Vad händer med en växt som får vatten men inget ljus?!`,
+                        extras: []
+                    },
+                    {
+                        textId: 'text3e',
+                        text: `Om du inte *förstår* vad formeln betyder:
 → ljus + vatten + CO₂ behövs för att bygga socker
-→ syre är en *restprodukt*, inte målet
+→ syre är något som *blir över*, inte målet
 
 ...då kan du inte svara på frågorna.`,
-                    extras: ['quote3', 'source']
-                }
+                        extras: ['quote2', 'source']
+                    }
+                ]
             }
         ];
 
         const cursor = document.getElementById('cursor');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const skipBtn = document.getElementById('skipBtn');
+        const nextBtn = document.getElementById('nextBtn');
         const replayBtn = document.getElementById('replayBtn');
         const progressText = document.getElementById('progress');
+        const waitingIndicator = document.getElementById('waitingIndicator');
 
         let currentSection = 0;
         let currentChar = 0;
-        let isPaused = false;
         let typingInterval = null;
-        let totalChars = 0;
-        let typedChars = 0;
-        let inContinuation = false;
-
-        // Calculate total characters
-        sections.forEach(s => {
-            totalChars += s.text.replace(/[*~!]/g, '').length;
-            if (s.continueWith) {
-                totalChars += s.continueWith.text.replace(/[*~!]/g, '').length;
-            }
-        });
+        let continuationIndex = -1; // -1 = main text, 0+ = continuation parts
+        let isTyping = false;
+        let waitingForInput = false;
 
         function parseText(text) {
             const result = [];
-            let inHighlight = false;
-            let inEm = false;
-            let inWarn = false;
-
+            let inHighlight = false, inEm = false, inWarn = false;
             for (let i = 0; i < text.length; i++) {
-                if (text[i] === '*') {
-                    inHighlight = !inHighlight;
-                    continue;
-                }
-                if (text[i] === '~') {
-                    inEm = !inEm;
-                    continue;
-                }
-                if (text[i] === '!') {
-                    inWarn = !inWarn;
-                    continue;
-                }
-                result.push({
-                    char: text[i],
-                    highlight: inHighlight,
-                    em: inEm,
-                    warn: inWarn
-                });
+                if (text[i] === '*') { inHighlight = !inHighlight; continue; }
+                if (text[i] === '~') { inEm = !inEm; continue; }
+                if (text[i] === '!') { inWarn = !inWarn; continue; }
+                result.push({ char: text[i], highlight: inHighlight, em: inEm, warn: inWarn });
             }
             return result;
         }
 
-        function initSection(index, textIdOverride = null, textOverride = null) {
-            const section = sections[index];
-            const textId = textIdOverride || section.textId;
-            const text = textOverride || section.text;
+        function initText(textId, text) {
             const container = document.getElementById(textId);
             container.innerHTML = '';
-
             const chars = parseText(text);
-            chars.forEach((item, i) => {
+            chars.forEach((item) => {
                 if (item.char === '\n') {
                     container.appendChild(document.createElement('br'));
                 } else {
@@ -557,12 +564,9 @@ Om du inte *förstår* vad formeln betyder:
                     if (item.warn) classes += ' warn';
                     span.className = classes;
                     span.textContent = item.char;
-                    span.dataset.index = i;
                     container.appendChild(span);
                 }
             });
-
-            // Position cursor
             container.appendChild(cursor);
             return chars.length;
         }
@@ -575,162 +579,148 @@ Om du inte *förstår* vad formeln betyder:
 
         function showExtra(id) {
             const el = document.getElementById(id);
-            if (el) {
-                setTimeout(() => el.classList.add('visible'), 300);
-            }
+            if (el) setTimeout(() => el.classList.add('visible'), 300);
         }
 
         function updateProgress() {
-            const pct = Math.round((typedChars / totalChars) * 100);
-            progressText.textContent = pct + '%';
+            if (currentSection >= sections.length) {
+                progressText.textContent = '✓ Klar';
+            } else {
+                progressText.textContent = `Del ${currentSection + 1}/3`;
+            }
+        }
+
+        function showWaiting() {
+            waitingForInput = true;
+            waitingIndicator.classList.add('visible');
+        }
+
+        function hideWaiting() {
+            waitingForInput = false;
+            waitingIndicator.classList.remove('visible');
+        }
+
+        function getCurrentTextInfo() {
+            const section = sections[currentSection];
+            if (continuationIndex === -1) {
+                return { textId: section.textId, text: section.text, extras: section.extras };
+            } else {
+                const cont = section.continueWith[continuationIndex];
+                return { textId: cont.textId, text: cont.text, extras: cont.extras };
+            }
         }
 
         function typeChar() {
-            if (isPaused) return;
-
-            const section = sections[currentSection];
-            const textId = inContinuation ? section.continueWith.textId : section.textId;
-            const container = document.getElementById(textId);
+            const info = getCurrentTextInfo();
+            const container = document.getElementById(info.textId);
             const chars = container.querySelectorAll('.char');
 
             if (currentChar >= chars.length) {
-                // Current text complete
-                const extras = inContinuation ? section.continueWith.extras : section.extras;
-                extras.forEach(showExtra);
-
-                // Check if section has continuation
-                if (!inContinuation && section.continueWith) {
-                    inContinuation = true;
-                    currentChar = 0;
-                    setTimeout(() => {
-                        initSection(currentSection, section.continueWith.textId, section.continueWith.text);
-                        typingInterval = setInterval(typeChar, 25);
-                    }, 1200);
-                    clearInterval(typingInterval);
-                    return;
-                }
-
-                // Move to next section
-                inContinuation = false;
-                currentSection++;
-                currentChar = 0;
-
-                if (currentSection < sections.length) {
-                    setTimeout(() => {
-                        showSection(currentSection);
-                        initSection(currentSection);
-                        typingInterval = setInterval(typeChar, 25);
-                    }, 1500);
-                } else {
-                    // All done
-                    cursor.classList.add('hidden');
-                    progressText.textContent = '✓ Klar';
-                }
-
                 clearInterval(typingInterval);
+                isTyping = false;
+                info.extras.forEach(showExtra);
+                showWaiting();
                 return;
             }
 
             chars[currentChar].classList.add('visible');
             currentChar++;
-            typedChars++;
-            updateProgress();
         }
 
         function startTyping() {
             if (typingInterval) clearInterval(typingInterval);
+            isTyping = true;
+            hideWaiting();
             typingInterval = setInterval(typeChar, 25);
         }
 
-        function togglePause() {
-            isPaused = !isPaused;
-            pauseBtn.textContent = isPaused ? '▶️ Fortsätt' : '⏸️ Pausa';
-            if (!isPaused) startTyping();
-        }
-
-        function skipSection() {
-            if (currentSection >= sections.length) return;
-
-            const section = sections[currentSection];
-
-            // Complete current text
-            const textId = inContinuation ? section.continueWith.textId : section.textId;
-            const container = document.getElementById(textId);
-            const chars = container.querySelectorAll('.char');
-            chars.forEach(c => c.classList.add('visible'));
-            typedChars += chars.length - currentChar;
-
-            // Show extras
-            const extras = inContinuation ? section.continueWith.extras : section.extras;
-            extras.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('visible');
-            });
-
-            // Check continuation
-            if (!inContinuation && section.continueWith) {
-                inContinuation = true;
-                currentChar = 0;
-                initSection(currentSection, section.continueWith.textId, section.continueWith.text);
+        function handleNext() {
+            if (isTyping) {
+                // Skip to end of current text
+                clearInterval(typingInterval);
+                isTyping = false;
+                const info = getCurrentTextInfo();
+                const container = document.getElementById(info.textId);
+                container.querySelectorAll('.char').forEach(c => c.classList.add('visible'));
+                info.extras.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('visible');
+                });
+                showWaiting();
                 return;
             }
 
-            // Move to next
-            inContinuation = false;
+            if (!waitingForInput) return;
+            hideWaiting();
+
+            const section = sections[currentSection];
+
+            // Check if there are continuations to show
+            if (section.continueWith && continuationIndex < section.continueWith.length - 1) {
+                continuationIndex++;
+                currentChar = 0;
+                const cont = section.continueWith[continuationIndex];
+                initText(cont.textId, cont.text);
+                startTyping();
+                return;
+            }
+
+            // Move to next section
+            continuationIndex = -1;
             currentSection++;
             currentChar = 0;
             updateProgress();
 
             if (currentSection < sections.length) {
                 showSection(currentSection);
-                initSection(currentSection);
+                initText(sections[currentSection].textId, sections[currentSection].text);
+                startTyping();
             } else {
                 cursor.classList.add('hidden');
-                progressText.textContent = '✓ Klar';
-                clearInterval(typingInterval);
             }
         }
 
         function replay() {
-            // Reset everything
             clearInterval(typingInterval);
             currentSection = 0;
             currentChar = 0;
-            typedChars = 0;
-            isPaused = false;
-            inContinuation = false;
-            pauseBtn.textContent = '⏸️ Pausa';
+            continuationIndex = -1;
+            isTyping = false;
             cursor.classList.remove('hidden');
+            hideWaiting();
 
-            // Hide all sections and extras
             document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
             document.querySelectorAll('.quote-box, .formula-box, .source-footer').forEach(e => e.classList.remove('visible'));
+            
+            // Clear all continuation texts
+            ['text3b', 'text3c', 'text3d', 'text3e'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '';
+            });
 
-            // Clear continuation text
-            const text4b = document.getElementById('text4b');
-            if (text4b) text4b.innerHTML = '';
-
-            // Start fresh
             showSection(0);
-            initSection(0);
+            initText(sections[0].textId, sections[0].text);
             updateProgress();
-            setTimeout(startTyping, 800);
+            setTimeout(startTyping, 600);
         }
 
-        pauseBtn.addEventListener('click', togglePause);
-        skipBtn.addEventListener('click', skipSection);
+        nextBtn.addEventListener('click', handleNext);
         replayBtn.addEventListener('click', replay);
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === ' ') { e.preventDefault(); togglePause(); }
-            else if (e.key === 'ArrowRight') skipSection();
-            else if (e.key === 'r' || e.key === 'R') replay();
+            if (e.key === ' ' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                handleNext();
+            } else if (e.key === 'r' || e.key === 'R') {
+                replay();
+            }
         });
 
         // Initialize
         showSection(0);
-        initSection(0);
-        setTimeout(startTyping, 1200);
+        initText(sections[0].textId, sections[0].text);
+        updateProgress();
+        setTimeout(startTyping, 800);
     </script>
 </body>
 
