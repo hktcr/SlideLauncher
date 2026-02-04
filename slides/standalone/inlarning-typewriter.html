@@ -333,7 +333,7 @@
         <div class="slide-content">
             <div class="slide-header">
                 <div class="icon-container">🧱</div>
-                <div class="slide-title">Del 1 av 4: Kunskap bygger på kunskap</div>
+                <div class="slide-title">Del 1 av 7: Kunskap bygger på kunskap</div>
             </div>
             <div class="typewriter-text" id="text1"></div>
         </div>
@@ -344,7 +344,7 @@
         <div class="slide-content">
             <div class="slide-header">
                 <div class="icon-container">💭</div>
-                <div class="slide-title">Del 2 av 4: Minnet är spåret av tanken</div>
+                <div class="slide-title">Del 2 av 7: Minnet är spåret av tanken</div>
             </div>
             <div class="typewriter-text" id="text2"></div>
             <div class="quote-box" id="quote1">
@@ -358,7 +358,7 @@
         <div class="slide-content">
             <div class="slide-header">
                 <div class="icon-container">🔧</div>
-                <div class="slide-title">Del 3 av 4: Förståelse kräver fakta</div>
+                <div class="slide-title">Del 3 av 7: Förståelse kräver fakta</div>
             </div>
             <div class="typewriter-text" id="text3"></div>
             <div class="quote-box" id="quote2">
@@ -372,7 +372,7 @@
         <div class="slide-content">
             <div class="slide-header">
                 <div class="icon-container">🌱</div>
-                <div class="slide-title">Del 4 av 4: Varför utantill inte räcker</div>
+                <div class="slide-title">Del 4 av 7: Varför utantill inte räcker</div>
             </div>
             <div class="typewriter-text" id="text4"></div>
             <div class="formula-box" id="formula1">
@@ -387,14 +387,39 @@
         <div class="slide-content">
             <div class="slide-header">
                 <div class="icon-container">❓</div>
-                <div class="slide-title">Del 4 av 4: Provfrågorna</div>
+                <div class="slide-title">Del 5 av 7: Provfrågorna</div>
             </div>
             <div class="typewriter-text" id="text5"></div>
             <div class="quote-box" id="quote3">
                 🔧 <em>Formeln är ett verktyg</em>, inte ett facit. Dina anteckningar lär dig använda verktyget.
             </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Varför gamla NP-uppgifter -->
+    <div class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <div class="icon-container">📝</div>
+                <div class="slide-title">Del 6 av 7: Varför gamla NP-uppgifter?</div>
+            </div>
+            <div class="typewriter-text" id="text6"></div>
+            <div class="quote-box" id="quote4">
+                🎯 Träning med gamla uppgifter = du lär dig <em>tänka rätt</em>, inte bara svara rätt.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Forskningen -->
+    <div class="slide" id="slide7">
+        <div class="slide-content">
+            <div class="slide-header">
+                <div class="icon-container">🔬</div>
+                <div class="slide-title">Del 7 av 7: Vad säger forskningen?</div>
+            </div>
+            <div class="typewriter-text" id="text7"></div>
             <div class="source-footer" id="source">
-                📚 Källa: Daniel Willingham, "Why Don't Students Like School?" (2009/2021), Lgr22 kommentarmaterial
+                📚 Källor: Popham (2001), Roediger & Karpicke (2006), Barnett & Ceci (2002)
             </div>
         </div>
     </div>
@@ -407,7 +432,7 @@
 
     <div class="controls">
         <button class="control-btn primary" id="nextBtn">▶ Fortsätt</button>
-        <span class="progress-text" id="progress">1/5</span>
+        <span class="progress-text" id="progress">1/7</span>
         <button class="control-btn" id="replayBtn">🔄 Börja om</button>
     </div>
 
@@ -465,7 +490,32 @@ Om du inte *förstår* vad formeln betyder:
 → syre är något som *blir över*, inte målet
 
 ...då kan du inte svara på frågorna.`,
-                extras: ['quote3', 'source']
+                extras: ['quote3']
+            },
+            {
+                slideId: 'slide6',
+                textId: 'text6',
+                text: `Därför tränar vi med *gamla* NP-uppgifter, inte med det riktiga provet.
+
+Om du vet exakt vilka frågor som kommer, lär du dig bara *svaren*. Inte att *tänka*.
+
+Gamla uppgifter har *samma typ* av frågor. Du tränar på att lösa problem du aldrig sett förut.`,
+                extras: ['quote4']
+            },
+            {
+                slideId: 'slide7',
+                textId: 'text7',
+                text: `Tre saker forskningen visar:
+
+*1. Att ge ut exakta frågor i förväg* = ytinlärning.
+Du memorerar svaren, inte förståelsen.
+
+*2. Att testa sig själv* hjälper minnet.
+Men bara om du inte vet frågorna i förväg.
+
+*3. Bred träning* = du kan svara på nya frågor.
+Smal träning = du kan bara svara på exakt det du övat.`,
+                extras: ['source']
             }
         ];
 
