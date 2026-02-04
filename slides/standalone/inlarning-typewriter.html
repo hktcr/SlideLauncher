@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hur lärande fungerar — NP-träning</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-gradient-start: #0d1117;
+            --bg-gradient-end: #1a2332;
+            --bio-forest: #2d5a27;
+            --bio-moss: #4a7c59;
+            --bio-glow: #68d391;
+            --bio-ocean: #1e3a5f;
+            --bio-sun: #f6ad55;
+            --text-primary: #f0f6f0;
+            --text-secondary: rgba(240, 246, 240, 0.6);
+            --text-muted: rgba(240, 246, 240, 0.35);
+            --cursor-color: #68d391;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: clamp(2rem, 6%, 4rem);
+            padding-bottom: 6rem;
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(104, 211, 145, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(104, 211, 145, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Animated orbs */
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.1;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .bg-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--bio-forest);
+            top: -150px;
+            right: -150px;
+        }
+
+        .bg-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--bio-ocean);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -12s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(20px, -20px) scale(1.05);
+            }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.3s forwards;
+        }
+
+        .icon-container {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--bio-forest) 0%, var(--bio-moss) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 32px rgba(45, 90, 39, 0.25);
+        }
+
+        .header-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--bio-glow);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section styling */
+        .section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--bio-glow);
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Typewriter text */
+        .typewriter-text {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            line-height: 2.1;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+
+        .char {
+            opacity: 0;
+            display: inline;
+        }
+
+        .char.visible {
+            opacity: 1;
+        }
+
+        .char.highlight {
+            color: var(--bio-glow);
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(104, 211, 145, 0.3);
+        }
+
+        .char.em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .char.warn {
+            color: var(--bio-sun);
+            font-weight: 600;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.3em;
+            background: var(--cursor-color);
+            margin-left: 3px;
+            animation: pulse 1s ease-in-out infinite;
+            vertical-align: text-bottom;
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--cursor-color);
+        }
+
+        .cursor.hidden {
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Quote boxes */
+        .quote-box {
+            margin: 1.5rem 0;
+            padding: 1.2rem 1.5rem;
+            background: rgba(45, 90, 39, 0.12);
+            border-left: 4px solid var(--bio-moss);
+            border-radius: 0 12px 12px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .quote-box.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .quote-box em {
+            color: var(--bio-glow);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* Formula box */
+        .formula-box {
+            margin: 1.5rem 0;
+            padding: 1.5rem 2rem;
+            background: rgba(30, 58, 95, 0.2);
+            border: 2px solid var(--bio-ocean);
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            text-align: center;
+            color: var(--bio-sun);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.6s ease-out;
+        }
+
+        .formula-box.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .formula-box .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Source footer */
+        .source-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(104, 211, 145, 0.1);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+        }
+
+        .source-footer.visible {
+            opacity: 1;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(13, 17, 23, 0.9);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(104, 211, 145, 0.2);
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(104, 211, 145, 0.2);
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .formula-box {
+                font-size: 1.1rem;
+                padding: 1rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="icon-container">🧠</div>
+            <div class="header-text">Hur lärande verkligen fungerar</div>
+        </div>
+
+        <!-- SECTION 1: Hjärnan bygger -->
+        <div class="section" id="section1">
+            <div class="section-header">
+                <span class="section-icon">🧱</span>
+                <span>Del 1 av 4 — Hjärnan bygger på det du redan vet</span>
+            </div>
+            <div class="typewriter-text" id="text1"></div>
+        </div>
+
+        <!-- SECTION 2: Minnet är spåret -->
+        <div class="section" id="section2">
+            <div class="section-header">
+                <span class="section-icon">💭</span>
+                <span>Del 2 av 4 — Minnet är spåret av tanken</span>
+            </div>
+            <div class="typewriter-text" id="text2"></div>
+            <div class="quote-box" id="quote1">
+                💡 Det du <em>tänker på</em> — det kommer du ihåg. Anteckningar tvingar dig att <em>bearbeta</em>.
+            </div>
+        </div>
+
+        <!-- SECTION 3: Förståelse kräver fakta -->
+        <div class="section" id="section3">
+            <div class="section-header">
+                <span class="section-icon">🔧</span>
+                <span>Del 3 av 4 — Förståelse kräver fakta</span>
+            </div>
+            <div class="typewriter-text" id="text3"></div>
+            <div class="quote-box" id="quote2">
+                🎯 Anteckningar är inte fusklapp — de är <em>ditt byggmaterial</em> för tänkande.
+            </div>
+        </div>
+
+        <!-- SECTION 4: Exemplet fotosyntes -->
+        <div class="section" id="section4">
+            <div class="section-header">
+                <span class="section-icon">🌱</span>
+                <span>Del 4 av 4 — Varför utantill inte räcker</span>
+            </div>
+            <div class="typewriter-text" id="text4"></div>
+            <div class="formula-box" id="formula1">
+                <div class="label">Fotosyntes</div>
+                6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
+            </div>
+            <div class="typewriter-text" id="text4b"></div>
+            <div class="quote-box" id="quote3">
+                🔧 <em>Formeln är ett verktyg</em> — inte ett facit. Anteckningarna lär dig använda verktyget.
+            </div>
+            <div class="source-footer" id="source">
+                📚 Källa: Willingham (2021), Lgr22 kommentarmaterial
+            </div>
+        </div>
+
+        <span class="cursor" id="cursor"></span>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" id="pauseBtn">⏸️ Pausa</button>
+        <span class="progress-text" id="progress">0%</span>
+        <button class="control-btn" id="skipBtn">⏭️ Hoppa</button>
+        <button class="control-btn" id="replayBtn">🔄 Replay</button>
+    </div>
+
+    <script>
+        const sections = [
+            {
+                id: 'section1',
+                textId: 'text1',
+                text: `Nya kunskaper fastnar på *gamla kunskaper* — som LEGO-bitar.
+
+Utan en grund att bygga på, faller allt.
+
+Varje lektion lägger en ny bit. Missar du en bit får nästa svårare att sitta.`,
+                extras: []
+            },
+            {
+                id: 'section2',
+                textId: 'text2',
+                text: `~"Memory is the residue of thought"~ — Willingham
+
+Det du *aktivt tänker på* är det du kommer ihåg.
+
+Att bara läsa räcker inte. Att *skriva*, *förklara*, *rita* — det fastnar.`,
+                extras: ['quote1']
+            },
+            {
+                id: 'section3',
+                textId: 'text3',
+                text: `Man kan inte tänka djupt utan material att tänka *med*.
+
+Fakta är inte motsatsen till förståelse — fakta är *verktyget* för förståelse.
+
+Era anteckningar + sammanfattningen = *allt ni behöver*.`,
+                extras: ['quote2']
+            },
+            {
+                id: 'section4',
+                textId: 'text4',
+                text: `Du KAN lära dig fotosyntesformeln ~utantill~...`,
+                extras: ['formula1'],
+                continueWith: {
+                    textId: 'text4b',
+                    text: `Men på provet frågas:
+
+!Varför vissnar en växt som står i mörker?!
+!Varför andas vi ut CO₂ men andas in O₂?!
+!Vad händer med en växt som får vatten men inget ljus?!
+
+Om du inte *förstår* vad formeln betyder:
+→ ljus + vatten + CO₂ behövs för att bygga socker
+→ syre är en *restprodukt*, inte målet
+
+...då kan du inte svara på frågorna.`,
+                    extras: ['quote3', 'source']
+                }
+            }
+        ];
+
+        const cursor = document.getElementById('cursor');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const replayBtn = document.getElementById('replayBtn');
+        const progressText = document.getElementById('progress');
+
+        let currentSection = 0;
+        let currentChar = 0;
+        let isPaused = false;
+        let typingInterval = null;
+        let totalChars = 0;
+        let typedChars = 0;
+        let inContinuation = false;
+
+        // Calculate total characters
+        sections.forEach(s => {
+            totalChars += s.text.replace(/[*~!]/g, '').length;
+            if (s.continueWith) {
+                totalChars += s.continueWith.text.replace(/[*~!]/g, '').length;
+            }
+        });
+
+        function parseText(text) {
+            const result = [];
+            let inHighlight = false;
+            let inEm = false;
+            let inWarn = false;
+
+            for (let i = 0; i < text.length; i++) {
+                if (text[i] === '*') {
+                    inHighlight = !inHighlight;
+                    continue;
+                }
+                if (text[i] === '~') {
+                    inEm = !inEm;
+                    continue;
+                }
+                if (text[i] === '!') {
+                    inWarn = !inWarn;
+                    continue;
+                }
+                result.push({
+                    char: text[i],
+                    highlight: inHighlight,
+                    em: inEm,
+                    warn: inWarn
+                });
+            }
+            return result;
+        }
+
+        function initSection(index, textIdOverride = null, textOverride = null) {
+            const section = sections[index];
+            const textId = textIdOverride || section.textId;
+            const text = textOverride || section.text;
+            const container = document.getElementById(textId);
+            container.innerHTML = '';
+
+            const chars = parseText(text);
+            chars.forEach((item, i) => {
+                if (item.char === '\n') {
+                    container.appendChild(document.createElement('br'));
+                } else {
+                    const span = document.createElement('span');
+                    let classes = 'char';
+                    if (item.highlight) classes += ' highlight';
+                    if (item.em) classes += ' em';
+                    if (item.warn) classes += ' warn';
+                    span.className = classes;
+                    span.textContent = item.char;
+                    span.dataset.index = i;
+                    container.appendChild(span);
+                }
+            });
+
+            // Position cursor
+            container.appendChild(cursor);
+            return chars.length;
+        }
+
+        function showSection(index) {
+            const section = document.getElementById(sections[index].id);
+            section.classList.add('visible');
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function showExtra(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                setTimeout(() => el.classList.add('visible'), 300);
+            }
+        }
+
+        function updateProgress() {
+            const pct = Math.round((typedChars / totalChars) * 100);
+            progressText.textContent = pct + '%';
+        }
+
+        function typeChar() {
+            if (isPaused) return;
+
+            const section = sections[currentSection];
+            const textId = inContinuation ? section.continueWith.textId : section.textId;
+            const container = document.getElementById(textId);
+            const chars = container.querySelectorAll('.char');
+
+            if (currentChar >= chars.length) {
+                // Current text complete
+                const extras = inContinuation ? section.continueWith.extras : section.extras;
+                extras.forEach(showExtra);
+
+                // Check if section has continuation
+                if (!inContinuation && section.continueWith) {
+                    inContinuation = true;
+                    currentChar = 0;
+                    setTimeout(() => {
+                        initSection(currentSection, section.continueWith.textId, section.continueWith.text);
+                        typingInterval = setInterval(typeChar, 25);
+                    }, 1200);
+                    clearInterval(typingInterval);
+                    return;
+                }
+
+                // Move to next section
+                inContinuation = false;
+                currentSection++;
+                currentChar = 0;
+
+                if (currentSection < sections.length) {
+                    setTimeout(() => {
+                        showSection(currentSection);
+                        initSection(currentSection);
+                        typingInterval = setInterval(typeChar, 25);
+                    }, 1500);
+                } else {
+                    // All done
+                    cursor.classList.add('hidden');
+                    progressText.textContent = '✓ Klar';
+                }
+
+                clearInterval(typingInterval);
+                return;
+            }
+
+            chars[currentChar].classList.add('visible');
+            currentChar++;
+            typedChars++;
+            updateProgress();
+        }
+
+        function startTyping() {
+            if (typingInterval) clearInterval(typingInterval);
+            typingInterval = setInterval(typeChar, 25);
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            pauseBtn.textContent = isPaused ? '▶️ Fortsätt' : '⏸️ Pausa';
+            if (!isPaused) startTyping();
+        }
+
+        function skipSection() {
+            if (currentSection >= sections.length) return;
+
+            const section = sections[currentSection];
+
+            // Complete current text
+            const textId = inContinuation ? section.continueWith.textId : section.textId;
+            const container = document.getElementById(textId);
+            const chars = container.querySelectorAll('.char');
+            chars.forEach(c => c.classList.add('visible'));
+            typedChars += chars.length - currentChar;
+
+            // Show extras
+            const extras = inContinuation ? section.continueWith.extras : section.extras;
+            extras.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('visible');
+            });
+
+            // Check continuation
+            if (!inContinuation && section.continueWith) {
+                inContinuation = true;
+                currentChar = 0;
+                initSection(currentSection, section.continueWith.textId, section.continueWith.text);
+                return;
+            }
+
+            // Move to next
+            inContinuation = false;
+            currentSection++;
+            currentChar = 0;
+            updateProgress();
+
+            if (currentSection < sections.length) {
+                showSection(currentSection);
+                initSection(currentSection);
+            } else {
+                cursor.classList.add('hidden');
+                progressText.textContent = '✓ Klar';
+                clearInterval(typingInterval);
+            }
+        }
+
+        function replay() {
+            // Reset everything
+            clearInterval(typingInterval);
+            currentSection = 0;
+            currentChar = 0;
+            typedChars = 0;
+            isPaused = false;
+            inContinuation = false;
+            pauseBtn.textContent = '⏸️ Pausa';
+            cursor.classList.remove('hidden');
+
+            // Hide all sections and extras
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+            document.querySelectorAll('.quote-box, .formula-box, .source-footer').forEach(e => e.classList.remove('visible'));
+
+            // Clear continuation text
+            const text4b = document.getElementById('text4b');
+            if (text4b) text4b.innerHTML = '';
+
+            // Start fresh
+            showSection(0);
+            initSection(0);
+            updateProgress();
+            setTimeout(startTyping, 800);
+        }
+
+        pauseBtn.addEventListener('click', togglePause);
+        skipBtn.addEventListener('click', skipSection);
+        replayBtn.addEventListener('click', replay);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') { e.preventDefault(); togglePause(); }
+            else if (e.key === 'ArrowRight') skipSection();
+            else if (e.key === 'r' || e.key === 'R') replay();
+        });
+
+        // Initialize
+        showSection(0);
+        initSection(0);
+        setTimeout(startTyping, 1200);
+    </script>
+</body>
+
+</html>
