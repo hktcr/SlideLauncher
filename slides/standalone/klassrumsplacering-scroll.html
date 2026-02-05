@@ -48,6 +48,7 @@
             overflow: hidden;
             position: relative;
             padding: clamp(1.5rem, 4vw, 3rem);
+            padding-bottom: 1rem;
         }
 
         .scroll-container {
@@ -185,12 +186,12 @@
             }
         }
 
-        /* Controls */
+        /* Controls - positioned in image area */
         .controls {
             position: fixed;
-            bottom: calc(33.33vh + 1rem);
+            bottom: calc(33.33vh / 2);
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, 50%);
             display: flex;
             align-items: center;
             gap: 1rem;
