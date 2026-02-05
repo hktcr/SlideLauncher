@@ -10,15 +10,15 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0d1117;
-            --bg-gradient-start: #0d1117;
-            --bg-gradient-end: #1a2332;
-            --accent-gold: #ffd700;
-            --accent-glow: rgba(255, 215, 0, 0.4);
-            --text-primary: #f0f6f0;
-            --text-secondary: rgba(240, 246, 240, 0.7);
-            --text-muted: rgba(240, 246, 240, 0.4);
-            --cursor-color: #ffd700;
+            --bg-gradient-start: #1a2332;
+            --bg-gradient-end: #0f1419;
+            --text-primary: #f5f0e8;
+            --text-secondary: #e8d9c5;
+            --accent-highlight: #7ed6a5;
+            --accent-gold: #f5c542;
+            --accent-glow: rgba(245, 197, 66, 0.6);
+            --text-muted: rgba(245, 240, 232, 0.5);
+            --cursor-color: #f5c542;
         }
 
         * {
@@ -68,8 +68,8 @@
             min-height: calc(var(--text-height) - var(--padding-top) - var(--padding-bottom));
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            padding-top: 1rem;
+            justify-content: center;
+            padding: 1rem 0;
         }
 
         .image-area {
@@ -93,18 +93,18 @@
         /* Typography */
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            font-size: clamp(0.85rem, 1.8vw, 1.1rem);
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .typewriter-text {
-            font-size: clamp(0.9rem, 2vw, 1.25rem);
-            line-height: 1.5;
-            max-width: 900px;
+            font-size: clamp(1.1rem, 2.8vw, 1.6rem);
+            line-height: 1.65;
+            max-width: 950px;
         }
 
         .char {
