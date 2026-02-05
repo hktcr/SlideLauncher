@@ -38,21 +38,24 @@
 
         /* Layout: Text top 2/3, Image bottom 1/3 */
         .container {
+            --text-height: 80vh;
+            --image-height: 20vh;
+            --padding-top: 2rem;
+            --padding-bottom: 2rem;
             height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
         .text-area {
-            height: 80vh;
+            height: var(--text-height);
             overflow: hidden;
             position: relative;
-            padding: clamp(1.5rem, 4vw, 3rem);
-            padding-bottom: 2rem;
+            padding: var(--padding-top) clamp(1.5rem, 4vw, 3rem) var(--padding-bottom);
         }
 
         .scroll-container {
-            height: calc(80vh - clamp(1.5rem, 4vw, 3rem) - 2rem);
+            height: 100%;
             overflow: hidden;
             position: relative;
         }
@@ -62,12 +65,11 @@
         }
 
         .section {
-            height: calc(80vh - clamp(1.5rem, 4vw, 3rem) - 2rem);
+            min-height: calc(var(--text-height) - var(--padding-top) - var(--padding-bottom));
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             padding-top: 1rem;
-            overflow: hidden;
         }
 
         .image-area {
@@ -480,7 +482,8 @@ Det bryter negativa mönster och minskar oro för vem du hamnar bredvid.`
         }
 
         function scrollToSection(index) {
-            const sectionHeight = document.querySelector('.section').offsetHeight;
+            // Use viewport-based calculation: 80vh - 4rem (padding)
+            const sectionHeight = window.innerHeight * 0.80 - 64; // 80vh - 4rem padding
             contentWrapper.style.transform = `translateY(-${index * sectionHeight}px)`;
         }
 
