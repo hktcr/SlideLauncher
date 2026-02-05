@@ -64,11 +64,12 @@
         }
 
         .section {
-            min-height: calc(100vh - var(--padding-top) - var(--padding-bottom));
+            /* Fixed height = scroll step = 100vh - 7rem */
+            height: calc(100vh - 7rem);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 1rem 0;
+            overflow: hidden;
         }
 
         /* No image area - full text layout */
