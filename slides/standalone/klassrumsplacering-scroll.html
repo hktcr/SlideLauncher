@@ -38,9 +38,6 @@
 
         /* Layout: Full viewport text */
         .container {
-            --padding-top: 2rem;
-            --padding-bottom: 5rem;
-            /* Space for controls */
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -50,11 +47,10 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
-            padding: var(--padding-top) clamp(1.5rem, 4vw, 3rem) var(--padding-bottom);
         }
 
         .scroll-container {
-            height: 100%;
+            height: 100vh;
             overflow: hidden;
             position: relative;
         }
@@ -64,12 +60,14 @@
         }
 
         .section {
-            /* Fixed height = scroll step = 100vh - 7rem */
-            height: calc(100vh - 7rem);
+            /* Each section = exactly 100vh */
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding: 3rem clamp(1.5rem, 4vw, 3rem) 6rem;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         /* No image area - full text layout */
@@ -498,8 +496,8 @@ Det bryter negativa mönster och minskar oro för vem du hamnar bredvid.`
         }
 
         function scrollToSection(index) {
-            // Use viewport-based calculation: 100vh - 7rem (2rem top + 5rem bottom padding)
-            const sectionHeight = window.innerHeight - 112; // 100vh - 7rem padding
+            // Each section is exactly 100vh, so scroll step = viewport height
+            const sectionHeight = window.innerHeight;
             contentWrapper.style.transform = `translateY(-${index * sectionHeight}px)`;
         }
 
