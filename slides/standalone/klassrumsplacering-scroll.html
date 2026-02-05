@@ -90,21 +90,21 @@
             background: linear-gradient(to bottom, var(--bg-gradient-end) 0%, transparent 100%);
         }
 
-        /* Typography */
+        /* Typography - Fully Responsive */
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+            font-size: clamp(1rem, 2.2vw, 1.4rem);
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .typewriter-text {
-            font-size: clamp(1.1rem, 2.8vw, 1.6rem);
-            line-height: 1.65;
-            max-width: 950px;
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            line-height: 1.6;
+            max-width: 1100px;
         }
 
         .char {
@@ -259,6 +259,38 @@
 
             50% {
                 opacity: 0.6;
+            }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .text-area {
+                padding: 1.5rem;
+            }
+
+            .typewriter-text {
+                font-size: clamp(1.2rem, 5vw, 1.6rem);
+                line-height: 1.55;
+            }
+
+            .section-title {
+                font-size: clamp(0.85rem, 3vw, 1.1rem);
+            }
+
+            .controls {
+                gap: 0.5rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .typewriter-text {
+                font-size: 2.4rem;
+                line-height: 1.65;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
             }
         }
 
