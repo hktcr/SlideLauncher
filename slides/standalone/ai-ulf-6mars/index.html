@@ -866,33 +866,64 @@
             {
                 id: "forandring",
                 label: "Har samtalet förändrats?",
-                render: () => `
+                render: () => {
+                    setTimeout(() => {
+                        const ctx = document.getElementById('trendChart');
+                        if (!ctx) return;
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['HT 2025', 'VT 2026'],
+                                datasets: [
+                                    {
+                                        label: 'NotebookLM',
+                                        data: [20, 42],
+                                        backgroundColor: '#7c3aed',
+                                        borderRadius: 4,
+                                    },
+                                    {
+                                        label: 'Gemini',
+                                        data: [25, 42],
+                                        backgroundColor: '#2563eb',
+                                        borderRadius: 4,
+                                    },
+                                    {
+                                        label: 'Copilot',
+                                        data: [10, 8],
+                                        backgroundColor: '#0891b2',
+                                        borderRadius: 4,
+                                    },
+                                    {
+                                        label: 'ChatGPT',
+                                        data: [45, 8],
+                                        backgroundColor: '#64748b',
+                                        borderRadius: 4,
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: { position: 'top', labels: { font: { family: 'Inter', size: 13, weight: '600' } } },
+                                    tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + c.raw + '%' } }
+                                },
+                                scales: {
+                                    x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Inter', size: 14, weight: '600' } } },
+                                    y: { stacked: true, grid: { color: '#f0f0f0' }, ticks: { font: { family: 'Inter', size: 13 }, callback: (v) => v + '%' }, max: 100, beginAtZero: true }
+                                }
+                            }
+                        });
+                    }, 120);
+                    return `
                 <div class="s-content">
                     <h2>Har samtalet förändrats?</h2>
-                    <div class="stat-pair">
-                        <div class="stat-box" style="border-left:3px solid var(--accent);">
-                            <div class="stat-label" style="font-size:1.1rem; font-weight:700;">November–december</div>
-                            <div class="stat-note" style="font-size:1rem; margin-top:0.6rem; line-height:1.6;">
-                                <em>"Hur börjar jag?"</em><br>
-                                Granska provfrågor. Sammanfatta dokument.<br>
-                                Översätta och renskriva.<br>
-                                <strong>Copilot</strong> och <strong>ChatGPT</strong> nämns ofta.
-                            </div>
-                        </div>
-                        <div class="stat-box" style="border-left:3px solid var(--accent2);">
-                            <div class="stat-label" style="font-size:1.1rem; font-weight:700;">Februari–mars</div>
-                            <div class="stat-note" style="font-size:1rem; margin-top:0.6rem; line-height:1.6;">
-                                <em>"Vad betyder det här för oss?"</em><br>
-                                EXIT-strategier. Kommunala satsningar.<br>
-                                Elevfrågor och upphovsrätt.<br>
-                                <strong>NotebookLM</strong> och <strong>Gemini</strong> dominerar.
-                            </div>
-                        </div>
-                    </div>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Andel av verktygsomn&auml;mnanden per period (baserat p&aring; s&ouml;kdata fr&aring;n forumet)</p>
+                    <div class="chart-wrap"><canvas id="trendChart" height="240"></canvas></div>
                     <div class="highlight">
-                        Från instrumentellt till reflekterande. Det är ett tecken på att forumet mognar.
+                        <strong>ChatGPT</strong> gick fr&aring;n 45% till 8%. <strong>NotebookLM</strong> och <strong>Gemini</strong> st&aring;r nu f&ouml;r &ouml;ver 80% av samtalet.
                     </div>
-                </div>`
+                </div>`;
+                }
             },
 
             // 6. VAD HAR VI TESTAT?
