@@ -152,7 +152,7 @@
             position: absolute;
             top: 0.5rem;
             right: 0.6rem;
-            font-size: 0.7rem;
+            font-size: clamp(0.7rem, 1.2vw, 1rem);
             font-weight: 600;
             color: var(--text-muted);
             opacity: 0.5;
@@ -160,7 +160,7 @@
 
         .card-label {
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: clamp(0.85rem, 1.5vw, 1.2rem);
             line-height: 1.3;
         }
 
@@ -950,45 +950,31 @@
             </div>`
             },
 
-            // 8. VAR BEFINNER SIG KOMMUNERNA?
+            // 8. HUR OLIKA SER DET UT?
             {
                 id: "kommuner",
-                label: "Var befinner sig kommunerna?",
+                label: "Hur olika ser det ut?",
                 render: () => `
             <div class="s-content">
-                <h2>Var befinner sig kommunerna?</h2>
+                <h2>Hur olika ser det ut?</h2>
                 <p style="color:var(--text-muted); margin-bottom:1.2rem;">Från veckotema 9: "Märker du att AI-frågan rör sig?"</p>
-                <div class="timeline">
-                    <div class="tl-item">
-                        <div class="tl-dot" style="background:#dcfce7;color:var(--green);">GBG</div>
-                        <div>
-                            <div class="tl-head">Göteborg</div>
-                            <div class="tl-body">Gemini och NotebookLM öppnat för elever. Riktlinje publicerad. Fortbildning för hela förvaltningen.</div>
-                        </div>
+                <div class="stat-pair" style="margin-bottom:1rem;">
+                    <div class="stat-box" style="border-left:3px solid var(--green);">
+                        <div class="stat-label" style="font-size:1.05rem; font-weight:600;">Några kommuner</div>
+                        <div class="stat-note" style="font-size:0.95rem; margin-top:0.5rem;">Har öppnat AI-verktyg för elever. Riktlinjer publicerade. Fortbildning för hela förvaltningen.</div>
                     </div>
-                    <div class="tl-item">
-                        <div class="tl-dot" style="background:#dbeafe;color:var(--accent);">HBG</div>
-                        <div>
-                            <div class="tl-head">Helsingborg</div>
-                            <div class="tl-body">Rektorsworkshops genomförda. OECD:s ramverk för AI-litteracitet som referens.</div>
-                        </div>
-                    </div>
-                    <div class="tl-item">
-                        <div class="tl-dot" style="background:#dbeafe;color:var(--accent);">LU</div>
-                        <div>
-                            <div class="tl-head">Lund</div>
-                            <div class="tl-body">Specialanpassad AI-utbildning inom BSF. Mål: minska administration, höja pedagogisk kvalitet.</div>
-                        </div>
-                    </div>
-                    <div class="tl-item">
-                        <div class="tl-dot" style="background:#fef3c7;color:var(--amber);">ÅST</div>
-                        <div>
-                            <div class="tl-head">Åstorp</div>
-                            <div class="tl-body">Gemini och NotebookLM i bildningsförvaltningen. Kommunövergripande samordning fortfarande i tidigt skede.</div>
-                        </div>
+                    <div class="stat-box" style="border-left:3px solid var(--amber);">
+                        <div class="stat-label" style="font-size:1.05rem; font-weight:600;">Andra kommuner</div>
+                        <div class="stat-note" style="font-size:0.95rem; margin-top:0.5rem;">Utbildningsinsatser pågår. Enskilda eldsjälar driver frågan. Samlat helhetsgrepp saknas ännu.</div>
                     </div>
                 </div>
-                <div class="highlight">Den här bilden, var svenska kommuner befinner sig, den kan du inte få i din egen kommun. Den får du bara genom att vi frågar varandra <strong>här</strong>.</div>
+                <div class="stat-pair">
+                    <div class="stat-box" style="border-left:3px solid var(--border);">
+                        <div class="stat-label" style="font-size:1.05rem; font-weight:600;">Och ytterligare andra</div>
+                        <div class="stat-note" style="font-size:0.95rem; margin-top:0.5rem;">Verktyg finns i bildningsförvaltningen. Kommunövergripande samordning i tidigt skede.</div>
+                    </div>
+                </div>
+                <div class="highlight">Det är den här spridningen forumet synliggör. Ingen enskild kommun har hela bilden.</div>
             </div>`
             },
 
