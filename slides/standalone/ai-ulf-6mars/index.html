@@ -865,56 +865,34 @@
             // 5. HAR DET FÖRÄNDRATS?
             {
                 id: "forandring",
-                label: "Har det förändrats?",
-                render: () => {
-                    setTimeout(() => {
-                        const ctx = document.getElementById('trendChart');
-                        if (!ctx) return;
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: ['NotebookLM', 'Gemini', 'Copilot', 'ChatGPT'],
-                                datasets: [
-                                    {
-                                        label: 'HT 2025',
-                                        data: [12, 16, 14, 4],
-                                        backgroundColor: 'rgba(37,99,235,0.25)',
-                                        borderColor: '#2563eb',
-                                        borderWidth: 1.5,
-                                        borderRadius: 4,
-                                    },
-                                    {
-                                        label: 'VT 2026',
-                                        data: [19, 12, 4, 2],
-                                        backgroundColor: 'rgba(124,58,237,0.7)',
-                                        borderColor: '#7c3aed',
-                                        borderWidth: 1.5,
-                                        borderRadius: 4,
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: { position: 'top', labels: { font: { family: 'Inter', size: 14, weight: '600' } } }
-                                },
-                                scales: {
-                                    x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 14, weight: '600' } } },
-                                    y: { grid: { color: '#f0f0f0' }, ticks: { font: { family: 'Inter', size: 13 } }, beginAtZero: true }
-                                }
-                            }
-                        });
-                    }, 120);
-                    return `
+                label: "Har samtalet förändrats?",
+                render: () => `
                 <div class="s-content">
-                    <h2>Har det förändrats?</h2>
-                    <div class="chart-wrap"><canvas id="trendChart" height="240"></canvas></div>
-                    <div class="highlight">
-                        Trenden är tydlig: <strong>Copilot</strong> och <strong>ChatGPT</strong> nämns allt mer sällan.<br>
-                        <strong>NotebookLM</strong> växer mest. <strong>Gemini</strong> är fortfarande bredast.
+                    <h2>Har samtalet förändrats?</h2>
+                    <div class="stat-pair">
+                        <div class="stat-box" style="border-left:3px solid var(--accent);">
+                            <div class="stat-label" style="font-size:1.1rem; font-weight:700;">November–december</div>
+                            <div class="stat-note" style="font-size:1rem; margin-top:0.6rem; line-height:1.6;">
+                                <em>"Hur börjar jag?"</em><br>
+                                Granska provfrågor. Sammanfatta dokument.<br>
+                                Översätta och renskriva.<br>
+                                <strong>Copilot</strong> och <strong>ChatGPT</strong> nämns ofta.
+                            </div>
+                        </div>
+                        <div class="stat-box" style="border-left:3px solid var(--accent2);">
+                            <div class="stat-label" style="font-size:1.1rem; font-weight:700;">Februari–mars</div>
+                            <div class="stat-note" style="font-size:1rem; margin-top:0.6rem; line-height:1.6;">
+                                <em>"Vad betyder det här för oss?"</em><br>
+                                EXIT-strategier. Kommunala satsningar.<br>
+                                Elevfrågor och upphovsrätt.<br>
+                                <strong>NotebookLM</strong> och <strong>Gemini</strong> dominerar.
+                            </div>
+                        </div>
                     </div>
-                </div>`;
-                }
+                    <div class="highlight">
+                        Från instrumentellt till reflekterande. Det är ett tecken på att forumet mognar.
+                    </div>
+                </div>`
             },
 
             // 6. VAD HAR VI TESTAT?
@@ -1155,19 +1133,13 @@
         function copyVeckotema() {
             const text = `# Veckotema vecka 11: Är vi på rätt väg?
 
-Vi har haft forumet i några månader nu. Vi har delat verktyg, jämfört kommuner, testat saker och berättat om resultaten. Några trådar har fått många svar, andra har mött tystnad.
+Forumet har nu funnits i några månader. Vi har delat verktyg, jämfört kommuner, testat saker och berättat om resultaten. Några trådar har fått många svar, andra har mött tystnad.
 
-Nu vill jag vända frågan till er: Vad skulle göra forumet mer relevant för just dig?
+Veckans fråga: Vad skulle göra forumet mer relevant för just dig?
 
-- Fler konkreta exempel från klassrummet?
-- Diskussioner om elevernas AI-vardag?
-- Kollegial granskning av verktyg?
-- Mer om forskning och policyer?
-- Något helt annat?
+Det vore jättebra om alla ville bidra med någon liten reflektion. 😊 
 
-Alla svar är värdefulla, oavsett hur aktiv du har varit hittills. Det är lika intressant att höra från dig som mest läser som från dig som skriver varje vecka.
-
-Välkomna till veckans diskussion! 🧭
+Välkomna till veckans diskussion! 
 
 (Det är givetvis mer än ok att fylla på i tidigare veckoteman också.)`;
 
