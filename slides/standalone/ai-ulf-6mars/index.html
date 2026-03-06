@@ -1095,6 +1095,7 @@
             setTimeout(() => showPresSlide(), 80);
         }
         function exitPresentation() {
+            if (editMode) toggleEdit();
             presMode = false;
             presSlide.classList.remove('active');
             presNav.classList.remove('visible');
