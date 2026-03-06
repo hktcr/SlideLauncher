@@ -792,13 +792,13 @@
                 <h2>Vilka är vi?</h2>
                 <div class="stat-pair">
                     <div class="stat-box">
-                        <div class="stat-big" style="font-size:3rem;">72</div>
+                        <div class="stat-big" style="font-size:3rem;">76</div>
                         <div class="stat-label">registrerade</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-big" style="font-size:3rem; color:var(--accent2);">42</div>
+                        <div class="stat-big" style="font-size:3rem; color:var(--accent2);">41</div>
                         <div class="stat-label">har skrivit minst ett inlägg</div>
-                        <div class="stat-note">58%, långt över 90-9-1-normen</div>
+                        <div class="stat-note">54%, långt över 90-9-1-normen</div>
                     </div>
                 </div>
                 <h3>Roller i nätverket</h3>
@@ -821,7 +821,7 @@
             // 4. VAD PRATAR VI OM?
             {
                 id: "verktyg",
-                label: "Vad pratar vi om?",
+                label: "Vilka verktyg pratar vi om?",
                 render: () => {
                     setTimeout(() => {
                         const ctx = document.getElementById('toolChart');
@@ -829,10 +829,10 @@
                         new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ['Gemini', 'NotebookLM', 'Copilot', 'ChatGPT', 'Google Gems'],
+                                labels: ['NotebookLM', 'Gemini', 'Copilot', 'ChatGPT', 'Google Gems'],
                                 datasets: [{
-                                    data: [34, 19, 19, 15, 6],
-                                    backgroundColor: ['#2563eb', '#7c3aed', '#0891b2', '#64748b', '#d97706'],
+                                    data: [31, 28, 18, 6, 6],
+                                    backgroundColor: ['#7c3aed', '#2563eb', '#0891b2', '#64748b', '#d97706'],
                                     borderRadius: 6, borderSkipped: false,
                                 }]
                             },
@@ -848,7 +848,7 @@
                     }, 120);
                     return `
                 <div class="s-content">
-                    <h2>Vad pratar vi om?</h2>
+                    <h2>Vilka verktyg pratar vi om?</h2>
                     <div class="chart-wrap"><canvas id="toolChart" height="210"></canvas></div>
                     <h3>Önskelistan</h3>
                     <p>
@@ -873,11 +873,11 @@
                         new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ['Gemini', 'Copilot', 'ChatGPT', 'NotebookLM'],
+                                labels: ['NotebookLM', 'Gemini', 'Copilot', 'ChatGPT'],
                                 datasets: [
                                     {
                                         label: 'HT 2025',
-                                        data: [22, 17, 12, 10],
+                                        data: [12, 16, 14, 4],
                                         backgroundColor: 'rgba(37,99,235,0.25)',
                                         borderColor: '#2563eb',
                                         borderWidth: 1.5,
@@ -885,7 +885,7 @@
                                     },
                                     {
                                         label: 'VT 2026',
-                                        data: [12, 2, 3, 9],
+                                        data: [19, 12, 4, 2],
                                         backgroundColor: 'rgba(124,58,237,0.7)',
                                         borderColor: '#7c3aed',
                                         borderWidth: 1.5,
@@ -910,8 +910,8 @@
                     <h2>Har det förändrats?</h2>
                     <div class="chart-wrap"><canvas id="trendChart" height="240"></canvas></div>
                     <div class="highlight">
-                        <strong>Copilot</strong> gick från 17 omnämnanden till 2. <strong>ChatGPT</strong> från 12 till 3.<br>
-                        <strong>Gemini</strong> och <strong>NotebookLM</strong> har blivit de mest diskuterade verktygen.
+                        Trenden är tydlig: <strong>Copilot</strong> och <strong>ChatGPT</strong> nämns allt mer sällan.<br>
+                        <strong>NotebookLM</strong> växer mest. <strong>Gemini</strong> är fortfarande bredast.
                     </div>
                 </div>`;
                 }
@@ -926,14 +926,12 @@
                 <h2>Vad har vi testat?</h2>
                 <p>Trådarna i forumet spänner över ett brett fält:</p>
                 <div style="margin:1.2rem 0;">
-                    <span class="pill">Dokumentanalys (150+ sidor)</span>
+                    <span class="pill">Dokumentanalys</span>
                     <span class="pill">Diagnostiska frågor</span>
-                    <span class="pill">Sammanfattning av forskning</span>
-                    <span class="pill">Transkribering av samtal</span>
-                    <span class="pill">Bildgenerering</span>
                     <span class="pill">Anpassade AI-assistenter</span>
                     <span class="pill">Språkgranskning</span>
-                    <span class="pill">Elevpresentationer</span>
+                    <span class="pill">Provförberedelse</span>
+                    <span class="pill">Elevstyrda AI-projekt</span>
                 </div>
                 <div class="stat-pair">
                     <div class="stat-box" style="border-left:3px solid var(--green);">
