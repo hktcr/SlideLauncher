@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-ULF Forum: Fyra månader in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #f7f8fa;
+            --card-bg: #ffffff;
+            --text: #16182a;
+            --text-muted: #5e6687;
+            --accent: #2563eb;
+            --accent2: #7c3aed;
+            --accent-light: rgba(37, 99, 235, 0.07);
+            --border: #e2e8f0;
+            --green: #16a34a;
+            --amber: #d97706;
+            --red: #dc2626;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08);
+            --radius: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== DECK VIEW ===== */
+        .deck-header {
+            text-align: center;
+            padding: 2.5rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .deck-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .deck-header .sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        .deck-actions {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-present {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border: none;
+            padding: 0.55rem 1.4rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-present:hover {
+            opacity: 0.85;
+        }
+
+        .btn-icon {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: var(--border);
+        }
+
+        .deck {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .deck.hidden {
+            display: none;
+        }
+
+        .deck-header.hidden {
+            display: none;
+        }
+
+        .card {
+            aspect-ratio: 16/10;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1.2rem;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-num {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .card-label {
+            font-weight: 600;
+            font-size: 0.82rem;
+            line-height: 1.3;
+        }
+
+        /* ===== PRESENTATION MODE ===== */
+        .pres-slide {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 6rem;
+            z-index: 200;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .pres-slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .pres-nav {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 210;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.5rem 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .pres-nav.visible {
+            opacity: 1;
+        }
+
+        .pres-nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .pres-nav button:hover {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .pres-nav .counter {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .pres-nav .btn-exit-pres {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-left: 1px solid var(--border);
+            padding-left: 1rem;
+            margin-left: 0.3rem;
+        }
+
+        /* ===== LIGHTBOX (from deck click) ===== */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+            z-index: 90;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            bottom: 2%;
+            background: var(--bg);
+            border-radius: 16px;
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 5rem;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12);
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lb-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 101;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lb-close:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .lb-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* ===== SLIDE CONTENT ===== */
+        .s-title {
+            text-align: center;
+            max-width: 820px;
+        }
+
+        .s-title h2 {
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .s-title .sub {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .s-title .meta {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .s-stat {
+            text-align: center;
+        }
+
+        .s-stat .big {
+            font-size: clamp(6rem, 18vw, 12rem);
+            font-weight: 900;
+            line-height: 0.9;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .s-stat .label {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .s-content {
+            max-width: 860px;
+            width: 100%;
+        }
+
+        .s-content h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .s-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .s-content p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .s-content .highlight {
+            background: var(--accent-light);
+            border-left: 3px solid var(--accent);
+            padding: 1.2rem 1.4rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1.5rem 0;
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .s-content .pill {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.15rem;
+        }
+
+        .slide-img {
+            max-width: 300px;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 12px;
+            opacity: 0.85;
+            margin-bottom: 1rem;
+        }
+
+        .chart-wrap {
+            width: 100%;
+            max-width: 700px;
+            margin: 1.5rem auto;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin: 1.5rem 0;
+        }
+
+        .tl-item {
+            display: flex;
+            gap: 1.2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tl-item:last-child {
+            border-bottom: none;
+        }
+
+        .tl-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .tl-head {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tl-body {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Stat pair */
+        .stat-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box {
+            padding: 1.8rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-box .stat-big {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-box .stat-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-box .stat-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* Role tags */
+        .role-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.2rem 0;
+        }
+
+        .role-tag {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+
+        /* CTA */
+        .cta-final {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .cta-final h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-final .question {
+            font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 2rem;
+        }
+
+        .cta-final .note {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Hidden edit button */
+        .edit-dot {
+            position: fixed;
+            bottom: 1.2rem;
+            left: 1.2rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: transparent;
+            cursor: pointer;
+            z-index: 220;
+            opacity: 0;
+            transition: opacity 0.3s, background 0.2s;
+        }
+
+        .edit-dot:hover {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .edit-dot.editing {
+            opacity: 1;
+            background: rgba(37, 99, 235, 0.12);
+            border-color: var(--accent);
+        }
+
+        .pres-slide.active~.edit-dot,
+        .lightbox.active~.edit-dot {
+            opacity: 0.15;
+        }
+
+        .pres-slide.active~.edit-dot:hover,
+        .lightbox.active~.edit-dot:hover {
+            opacity: 1;
+        }
+
+        [contenteditable="true"] {
+            outline: 1px dashed rgba(37, 99, 235, 0.3);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        /* Teams scaling */
+        @media (min-width: 1200px) {
+            .s-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .s-content p,
+            .s-content .highlight {
+                font-size: 1.2rem;
+            }
+
+            .tl-head {
+                font-size: 1.2rem;
+            }
+
+            .tl-body {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .deck {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 1rem;
+            }
+
+            .pres-slide {
+                padding: 2rem 1.5rem;
+            }
+
+            .lightbox {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 0;
+                padding: 2rem 1.5rem;
+            }
+
+            .stat-pair {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- DECK VIEW -->
+    <div class="deck-header" id="deckHeader">
+        <h1>Forumet: fyra månader in</h1>
+        <div class="sub">AI-ULF · Utvidgade nätverket · 6 mars 2026</div>
+        <div class="deck-actions">
+            <button class="btn-present" onclick="startPresentation()" title="Starta presentation">Presentera</button>
+            <button class="btn-icon" onclick="toggleFullscreen()" title="Helskärm">&#x26F6;</button>
+        </div>
+    </div>
+    <div class="deck" id="deck"></div>
+
+    <!-- LIGHTBOX -->
+    <div class="overlay" id="overlay" onclick="closeLightbox()"></div>
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" onclick="closeLightbox()">&#x2715;</button>
+        <div id="lbContent"></div>
+        <div class="lb-counter" id="lbCounter"></div>
+    </div>
+
+    <!-- PRESENTATION MODE -->
+    <div class="pres-slide" id="presSlide">
+        <div id="presContent"></div>
+    </div>
+    <button class="edit-dot" id="editDot" onclick="toggleEdit()" title="Redigera"></button>
+    <div class="pres-nav" id="presNav">
+        <button onclick="presGo(-1)" title="Föregående">&#x2190;</button>
+        <span class="counter" id="presCounter"></span>
+        <button onclick="presGo(1)" title="Nästa">&#x2192;</button>
+        <button class="btn-exit-pres" onclick="exitPresentation()" title="Avsluta">Avsluta</button>
+    </div>
+
+    <script>
+        const slides = [
+            // 1. TITEL
+            {
+                id: "titel",
+                label: "Forumet: fyra månader in",
+                render: () => `
+            <div class="s-title">
+                <img src="img_network.png" class="slide-img" alt="">
+                <h2>Fyra månader på forumet</h2>
+                <div class="sub">Vad har vi lärt oss?</div>
+                <div class="meta">AI-ULF · Utvidgade nätverket · 6 mars 2026</div>
+            </div>`
+            },
+
+            // 2. HOOK
+            {
+                id: "hook",
+                label: "Från dagar till timmar",
+                render: () => `
+            <div class="s-content">
+                <h2>En historia från forumet</h2>
+                <div class="highlight">
+                    En utvecklingschef laddade upp <strong>150 sidor medborgarundersökning</strong> i NotebookLM.
+                    Det som tidigare tog dagar tog nu timmar.
+                </div>
+                <p>Några veckor senare kom samma person tillbaka med en ny plan: spela in medarbetarsamtal och bearbeta dem i samma verktyg. Inte som ersättning, utan för att kunna ha <strong>fullt fokus på samtalet</strong> istället för att anteckna.</p>
+                <p style="color:var(--text-muted); font-style:italic;">Från enskilt test till integrerad arbetsmetod. Det är progressionen vi letar efter.</p>
+            </div>`
+            },
+
+            // 3. VILKA ÄR VI?
+            {
+                id: "vilka",
+                label: "Vilka är vi?",
+                render: () => `
+            <div class="s-content">
+                <h2>Vilka är vi?</h2>
+                <div class="stat-pair">
+                    <div class="stat-box">
+                        <div class="stat-big" style="font-size:3rem;">72</div>
+                        <div class="stat-label">registrerade</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-big" style="font-size:3rem; color:var(--accent2);">42</div>
+                        <div class="stat-label">har skrivit minst ett inlägg</div>
+                        <div class="stat-note">58%, långt över 90-9-1-normen</div>
+                    </div>
+                </div>
+                <h3>Roller i nätverket</h3>
+                <div class="role-grid">
+                    <span class="role-tag">Professorer</span>
+                    <span class="role-tag">Verksamhetschefer</span>
+                    <span class="role-tag">Utvecklingsledare</span>
+                    <span class="role-tag">Förstelärare</span>
+                    <span class="role-tag">Lektorer</span>
+                    <span class="role-tag">Förskollärare</span>
+                    <span class="role-tag">Bibliotekarier</span>
+                    <span class="role-tag">IT-strateger</span>
+                    <span class="role-tag">Projektledare</span>
+                    <span class="role-tag">Yrkeslärare</span>
+                </div>
+                <div class="highlight">Få arenor samlar det här spannet: från professor till förskollärare, från storstad till liten kommun.</div>
+            </div>`
+            },
+
+            // 4. VAD PRATAR VI OM?
+            {
+                id: "verktyg",
+                label: "Vad pratar vi om?",
+                render: () => {
+                    setTimeout(() => {
+                        const ctx = document.getElementById('toolChart');
+                        if (!ctx) return;
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Gemini', 'NotebookLM', 'Copilot', 'ChatGPT', 'SveaGPT', 'Google Gems'],
+                                datasets: [{
+                                    data: [34, 19, 19, 15, 3, 6],
+                                    backgroundColor: ['#2563eb', '#7c3aed', '#0891b2', '#64748b', '#16a34a', '#d97706'],
+                                    borderRadius: 6, borderSkipped: false,
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y', responsive: true,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 14 } } },
+                                    y: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 15, weight: '600' } } }
+                                }
+                            }
+                        });
+                    }, 120);
+                    return `
+                <div class="s-content">
+                    <h2>Vad pratar vi om?</h2>
+                    <div class="chart-wrap"><canvas id="toolChart" height="210"></canvas></div>
+                    <h3>Önskelistan</h3>
+                    <p>
+                        <span class="pill">Diariserad transkribering</span>
+                        <span class="pill">AI med elevdelning</span>
+                        <span class="pill">Lovable</span>
+                        <span class="pill">HeyGen</span>
+                        <span class="pill">ElevenLabs</span>
+                    </p>
+                </div>`;
+                }
+            },
+
+            // 5. HAR DET FÖRÄNDRATS?
+            {
+                id: "forandring",
+                label: "Har det förändrats?",
+                render: () => {
+                    setTimeout(() => {
+                        const ctx = document.getElementById('trendChart');
+                        if (!ctx) return;
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Gemini', 'Copilot', 'ChatGPT', 'NotebookLM', 'SveaGPT'],
+                                datasets: [
+                                    {
+                                        label: 'HT 2025',
+                                        data: [22, 17, 12, 10, 0],
+                                        backgroundColor: 'rgba(37,99,235,0.25)',
+                                        borderColor: '#2563eb',
+                                        borderWidth: 1.5,
+                                        borderRadius: 4,
+                                    },
+                                    {
+                                        label: 'VT 2026',
+                                        data: [12, 2, 3, 9, 3],
+                                        backgroundColor: 'rgba(124,58,237,0.7)',
+                                        borderColor: '#7c3aed',
+                                        borderWidth: 1.5,
+                                        borderRadius: 4,
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: { position: 'top', labels: { font: { family: 'Inter', size: 14, weight: '600' } } }
+                                },
+                                scales: {
+                                    x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 14, weight: '600' } } },
+                                    y: { grid: { color: '#f0f0f0' }, ticks: { font: { family: 'Inter', size: 13 } }, beginAtZero: true }
+                                }
+                            }
+                        });
+                    }, 120);
+                    return `
+                <div class="s-content">
+                    <h2>Har det förändrats?</h2>
+                    <div class="chart-wrap"><canvas id="trendChart" height="240"></canvas></div>
+                    <div class="highlight">
+                        <strong>Copilot</strong> gick från 17 omnämnanden till 2. <strong>ChatGPT</strong> från 12 till 3.<br>
+                        <strong>Gemini</strong> och <strong>NotebookLM</strong> har blivit de mest diskuterade verktygen. <strong>SveaGPT</strong> dök upp i januari.
+                    </div>
+                </div>`;
+                }
+            },
+
+            // 6. VAD HAR VI TESTAT?
+            {
+                id: "testat",
+                label: "Vad har vi testat?",
+                render: () => `
+            <div class="s-content">
+                <h2>Vad har vi testat?</h2>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-dot" style="background:#dcfce7;color:var(--green);">+</div>
+                        <div>
+                            <div class="tl-head">Diagnostiska frågor i matematik</div>
+                            <div class="tl-body">AI genererar multiple-choice med genomtänkta distraktorer. Det tidskrävande momentet, exakt det steget som AI löser. Läraren behåller den didaktiska kontrollen.</div>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot" style="background:#fef3c7;color:var(--amber);">~</div>
+                        <div>
+                            <div class="tl-head">AI korrigerar felaktiga idiom i svenska</div>
+                            <div class="tl-body">Det fungerade <em>inte</em>. Men det blev en lektion i sig: "När AI inte fungerar" som undervisningsmoment. Misslyckandet var mer värdefullt än ett lyckat resultat.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">Båda exemplen visar samma sak: det intressanta är inte verktyget, utan den pedagogiska tanken kring det.</div>
+            </div>`
+            },
+
+            // 7. VAD PRATAR VI INTE OM?
+            {
+                id: "tystnad",
+                label: "Vad pratar vi inte om?",
+                render: () => `
+            <div class="s-content">
+                <h2>Vad pratar vi inte om?</h2>
+                <div class="stat-pair">
+                    <div class="stat-box">
+                        <div class="stat-big">0</div>
+                        <div class="stat-label">svar på "Elevernas AI-vardag"</div>
+                        <div class="stat-note">Men 20 visningar. Folk läste, men ingen skrev.</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-big" style="color:var(--accent2);">0</div>
+                        <div class="stat-label">likes på vecka 51</div>
+                        <div class="stat-note">20 svar, men ingen gillade en annans.</div>
+                    </div>
+                </div>
+                <div class="highlight">
+                    Vi delar gärna vad vi gör. Men vi reagerar sällan på vad andra skrivit. Och vi delar sällan det som <em>inte</em> fungerade. Det är naturligt, men värt att fundera på.
+                </div>
+            </div>`
+            },
+
+            // 8. VAR BEFINNER SIG KOMMUNERNA?
+            {
+                id: "kommuner",
+                label: "Var befinner sig kommunerna?",
+                render: () => `
+            <div class="s-content">
+                <h2>Var befinner sig kommunerna?</h2>
+                <p style="color:var(--text-muted); margin-bottom:1.2rem;">Från veckotema 9: "Märker du att AI-frågan rör sig?"</p>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-dot" style="background:#dcfce7;color:var(--green);">GBG</div>
+                        <div>
+                            <div class="tl-head">Göteborg</div>
+                            <div class="tl-body">Gemini och NotebookLM öppnat för elever. Riktlinje publicerad. Fortbildning för hela förvaltningen.</div>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot" style="background:#dbeafe;color:var(--accent);">HBG</div>
+                        <div>
+                            <div class="tl-head">Helsingborg</div>
+                            <div class="tl-body">Rektorsworkshops genomförda. OECD:s ramverk för AI-litteracitet som referens.</div>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot" style="background:#dbeafe;color:var(--accent);">LU</div>
+                        <div>
+                            <div class="tl-head">Lund</div>
+                            <div class="tl-body">Specialanpassad AI-utbildning inom BSF. Mål: minska administration, höja pedagogisk kvalitet.</div>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot" style="background:#fef3c7;color:var(--amber);">ÅST</div>
+                        <div>
+                            <div class="tl-head">Åstorp</div>
+                            <div class="tl-body">Centreras kring Gemini och NotebookLM i bildningsförvaltningen.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">Den här bilden, var svenska kommuner befinner sig, den kan du inte få i din egen kommun. Den får du bara genom att vi frågar varandra <strong>här</strong>.</div>
+            </div>`
+            },
+
+            // 9. ÄR VI PÅ RÄTT VÄG?
+            {
+                id: "bonustema",
+                label: "Är vi på rätt väg?",
+                render: () => `
+            <div class="cta-final">
+                <h2>Bonustema vecka 10 1/2</h2>
+                <div class="question">
+                    Forumet har fungerat bra för att dela verktyg och jämföra kommuner.<br>
+                    Men vi har inte riktigt kommit dit att vi bygger vidare på varandras erfarenheter.
+                </div>
+                <div style="background:var(--accent-light); border-radius:var(--radius); padding:2rem 2.5rem; margin-bottom:2rem;">
+                    <p style="font-size:clamp(1.3rem, 3vw, 1.8rem); font-weight:700; color:var(--text); line-height:1.5;">
+                        Vad skulle göra forumet<br>mer relevant för just dig?
+                    </p>
+                </div>
+                <div class="note">Det här temat ligger nu i forumet. Ta den tid du behöver.</div>
+            </div>`
+            }
+        ];
+
+        // ===== DECK RENDERING =====
+        const deck = document.getElementById('deck');
+        slides.forEach((s, i) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<div class="card-num">${i + 1}</div><div class="card-label">${s.label}</div>`;
+            card.onclick = () => openLightbox(i);
+            deck.appendChild(card);
+        });
+
+        // ===== LIGHTBOX =====
+        const overlay = document.getElementById('overlay');
+        const lightbox = document.getElementById('lightbox');
+        const lbContent = document.getElementById('lbContent');
+        const lbCounter = document.getElementById('lbCounter');
+
+        function openLightbox(i) {
+            destroyCharts();
+            lbContent.innerHTML = slides[i].render();
+            lbCounter.textContent = `${i + 1} / ${slides.length}`;
+            lightbox.classList.add('active');
+            overlay.classList.add('active');
+        }
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            overlay.classList.remove('active');
+            destroyCharts();
+        }
+
+        // ===== PRESENTATION MODE =====
+        let presIndex = 0, presMode = false;
+        const presSlide = document.getElementById('presSlide');
+        const presContent = document.getElementById('presContent');
+        const presNav = document.getElementById('presNav');
+        const presCounter = document.getElementById('presCounter');
+
+        function startPresentation() {
+            presMode = true; presIndex = 0;
+            document.getElementById('deckHeader').classList.add('hidden');
+            deck.classList.add('hidden');
+            showPresSlide();
+            document.documentElement.requestFullscreen().catch(() => { });
+            setTimeout(() => presNav.classList.add('visible'), 1500);
+        }
+        function showPresSlide() {
+            destroyCharts();
+            presContent.innerHTML = slides[presIndex].render();
+            presCounter.textContent = `${presIndex + 1} / ${slides.length}`;
+            presSlide.classList.add('active');
+        }
+        function presGo(dir) {
+            const next = presIndex + dir;
+            if (next < 0 || next >= slides.length) return;
+            presSlide.classList.remove('active');
+            presIndex = next;
+            setTimeout(() => showPresSlide(), 80);
+        }
+        function exitPresentation() {
+            presMode = false;
+            presSlide.classList.remove('active');
+            presNav.classList.remove('visible');
+            document.getElementById('deckHeader').classList.remove('hidden');
+            deck.classList.remove('hidden');
+            destroyCharts();
+            if (document.fullscreenElement) document.exitFullscreen();
+        }
+        function destroyCharts() {
+            if (typeof Chart !== 'undefined') Object.values(Chart.instances || {}).forEach(c => c.destroy());
+        }
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+            else document.exitFullscreen();
+        }
+
+        // Keyboard
+        // Edit mode
+        let editMode = false;
+        const editDot = document.getElementById('editDot');
+        function toggleEdit() {
+            editMode = !editMode;
+            editDot.classList.toggle('editing', editMode);
+            const target = presMode ? presContent : lbContent;
+            if (editMode) {
+                target.setAttribute('contenteditable', 'true');
+                target.focus();
+            } else {
+                target.removeAttribute('contenteditable');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (editMode) {
+                if (e.key === 'Escape') { toggleEdit(); e.preventDefault(); }
+                return; // Don't navigate while editing
+            }
+            if (presMode) {
+                if (['ArrowRight', 'ArrowDown', ' '].includes(e.key)) { e.preventDefault(); presGo(1); }
+                if (['ArrowLeft', 'ArrowUp'].includes(e.key)) { e.preventDefault(); presGo(-1); }
+                if (e.key === 'Escape') exitPresentation();
+            } else {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+            }
+        });
+        document.addEventListener('mousemove', () => {
+            if (presMode) {
+                presNav.classList.add('visible');
+                clearTimeout(window._navT);
+                window._navT = setTimeout(() => presNav.classList.remove('visible'), 3000);
+            }
+        });
+    </script>
+</body>
+
+</html>
