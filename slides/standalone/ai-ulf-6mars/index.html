@@ -1074,6 +1074,7 @@
         const presCounter = document.getElementById('presCounter');
 
         function startPresentation() {
+            if (editMode) toggleEdit();
             presMode = true; presIndex = 0;
             document.getElementById('deckHeader').classList.add('hidden');
             deck.classList.add('hidden');
@@ -1083,11 +1084,17 @@
         }
         function showPresSlide() {
             destroyCharts();
-            presContent.innerHTML = slides[presIndex].render();
+            const edits = getEdits();
+            if (edits[presIndex]) {
+                presContent.innerHTML = edits[presIndex];
+            } else {
+                presContent.innerHTML = slides[presIndex].render();
+            }
             presCounter.textContent = `${presIndex + 1} / ${slides.length}`;
             presSlide.classList.add('active');
         }
         function presGo(dir) {
+            if (editMode) saveCurrentSlide();
             const next = presIndex + dir;
             if (next < 0 || next >= slides.length) return;
             presSlide.classList.remove('active');
@@ -1116,7 +1123,19 @@
         // Edit mode
         let editMode = false;
         const editDot = document.getElementById('editDot');
+        const EDIT_KEY = 'aiulf_slide_edits';
+
+        function getEdits() {
+            try { return JSON.parse(localStorage.getItem(EDIT_KEY) || '{}'); } catch { return {}; }
+        }
+        function saveCurrentSlide() {
+            if (!presMode) return;
+            const edits = getEdits();
+            edits[presIndex] = presContent.innerHTML;
+            localStorage.setItem(EDIT_KEY, JSON.stringify(edits));
+        }
         function toggleEdit() {
+            if (editMode) saveCurrentSlide();
             editMode = !editMode;
             editDot.classList.toggle('editing', editMode);
             const target = presMode ? presContent : lbContent;
