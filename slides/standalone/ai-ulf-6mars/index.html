@@ -538,6 +538,17 @@
             font-weight: 500;
         }
 
+        .pill {
+            display: inline-block;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin: 0.2rem 0.15rem;
+        }
+
         /* CTA */
         .cta-final {
             text-align: center;
@@ -752,7 +763,7 @@
                     <span class="role-tag">IT-strateger</span>
                     <span class="role-tag">Projektledare</span>
                 </div>
-                <div class="highlight">Få arenor samlar det här spannet: från professor till förskollärare, från storstad till liten kommun.</div>
+                <div class="highlight">Få arenor samlar det här spannet: från förskola till universitet, från storstad till liten kommun.</div>
             </div>`
             },
 
@@ -767,10 +778,10 @@
                         new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ['Gemini', 'NotebookLM', 'Copilot', 'ChatGPT', 'SveaGPT', 'Google Gems'],
+                                labels: ['Gemini', 'NotebookLM', 'Copilot', 'ChatGPT', 'Google Gems'],
                                 datasets: [{
-                                    data: [34, 19, 19, 15, 3, 6],
-                                    backgroundColor: ['#2563eb', '#7c3aed', '#0891b2', '#64748b', '#16a34a', '#d97706'],
+                                    data: [34, 19, 19, 15, 6],
+                                    backgroundColor: ['#2563eb', '#7c3aed', '#0891b2', '#64748b', '#d97706'],
                                     borderRadius: 6, borderSkipped: false,
                                 }]
                             },
@@ -811,11 +822,11 @@
                         new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: ['Gemini', 'Copilot', 'ChatGPT', 'NotebookLM', 'SveaGPT'],
+                                labels: ['Gemini', 'Copilot', 'ChatGPT', 'NotebookLM'],
                                 datasets: [
                                     {
                                         label: 'HT 2025',
-                                        data: [22, 17, 12, 10, 0],
+                                        data: [22, 17, 12, 10],
                                         backgroundColor: 'rgba(37,99,235,0.25)',
                                         borderColor: '#2563eb',
                                         borderWidth: 1.5,
@@ -823,7 +834,7 @@
                                     },
                                     {
                                         label: 'VT 2026',
-                                        data: [12, 2, 3, 9, 3],
+                                        data: [12, 2, 3, 9],
                                         backgroundColor: 'rgba(124,58,237,0.7)',
                                         borderColor: '#7c3aed',
                                         borderWidth: 1.5,
@@ -849,7 +860,7 @@
                     <div class="chart-wrap"><canvas id="trendChart" height="240"></canvas></div>
                     <div class="highlight">
                         <strong>Copilot</strong> gick från 17 omnämnanden till 2. <strong>ChatGPT</strong> från 12 till 3.<br>
-                        <strong>Gemini</strong> och <strong>NotebookLM</strong> har blivit de mest diskuterade verktygen. <strong>SveaGPT</strong> dök upp i januari.
+                        <strong>Gemini</strong> och <strong>NotebookLM</strong> har blivit de mest diskuterade verktygen.
                     </div>
                 </div>`;
                 }
@@ -862,23 +873,28 @@
                 render: () => `
             <div class="s-content">
                 <h2>Vad har vi testat?</h2>
-                <div class="timeline">
-                    <div class="tl-item">
-                        <div class="tl-dot" style="background:#dcfce7;color:var(--green);">+</div>
-                        <div>
-                            <div class="tl-head">Diagnostiska frågor i matematik</div>
-                            <div class="tl-body">AI genererar multiple-choice med genomtänkta distraktorer. Det tidskrävande momentet, exakt det steget som AI löser. Läraren behåller den didaktiska kontrollen.</div>
-                        </div>
+                <p>Trådarna i forumet spänner över ett brett fält:</p>
+                <div style="margin:1.2rem 0;">
+                    <span class="pill">Dokumentanalys (150+ sidor)</span>
+                    <span class="pill">Diagnostiska frågor</span>
+                    <span class="pill">Sammanfattning av forskning</span>
+                    <span class="pill">Transkribering av samtal</span>
+                    <span class="pill">Bildgenerering</span>
+                    <span class="pill">Anpassade AI-assistenter</span>
+                    <span class="pill">Språkgranskning</span>
+                    <span class="pill">Elevpresentationer</span>
+                </div>
+                <div class="stat-pair">
+                    <div class="stat-box" style="border-left:3px solid var(--green);">
+                        <div class="stat-label" style="font-size:1.05rem;">Det som fungerar bäst</div>
+                        <div class="stat-note" style="font-size:1rem; margin-top:0.5rem;">Tunga, tidskrävande moment: bearbeta stora dokument, generera utkast, sortera data.</div>
                     </div>
-                    <div class="tl-item">
-                        <div class="tl-dot" style="background:#fef3c7;color:var(--amber);">~</div>
-                        <div>
-                            <div class="tl-head">AI korrigerar felaktiga idiom i svenska</div>
-                            <div class="tl-body">Det fungerade <em>inte</em>. Men det blev en lektion i sig: "När AI inte fungerar" som undervisningsmoment. Misslyckandet var mer värdefullt än ett lyckat resultat.</div>
-                        </div>
+                    <div class="stat-box" style="border-left:3px solid var(--amber);">
+                        <div class="stat-label" style="font-size:1.05rem;">Det som inte fungerar (ännu)</div>
+                        <div class="stat-note" style="font-size:1rem; margin-top:0.5rem;">Språkkänsliga uppgifter, idiomatik, nyanser som kräver kulturell kontext.</div>
                     </div>
                 </div>
-                <div class="highlight">Båda exemplen visar samma sak: det intressanta är inte verktyget, utan den pedagogiska tanken kring det.</div>
+                <div class="highlight">Den gemensamma rörelsen: från att testa verktyget till att tänka kring pedagogiken.</div>
             </div>`
             },
 
@@ -896,13 +912,13 @@
                         <div class="stat-note">Men 20 visningar. Folk läste, men ingen skrev.</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-big" style="color:var(--accent2);">0</div>
-                        <div class="stat-label">likes på vecka 51</div>
-                        <div class="stat-note">20 svar, men ingen gillade en annans.</div>
+                        <div class="stat-big" style="color:var(--accent2);">2</div>
+                        <div class="stat-label">svar på "När fungerar AI inte?"</div>
+                        <div class="stat-note">Det är svårare att dela det som inte fungerade.</div>
                     </div>
                 </div>
                 <div class="highlight">
-                    Vi delar gärna vad vi gör. Men vi reagerar sällan på vad andra skrivit. Och vi delar sällan det som <em>inte</em> fungerade. Det är naturligt, men värt att fundera på.
+                    Tystnaden <em>är</em> ett svar. Vi behöver bättre sätt att förstå elevernas AI-vardag. Och vi behöver ett klimat där det är lika naturligt att berätta om det som inte fungerade.
                 </div>
             </div>`
             },
@@ -941,7 +957,7 @@
                         <div class="tl-dot" style="background:#fef3c7;color:var(--amber);">ÅST</div>
                         <div>
                             <div class="tl-head">Åstorp</div>
-                            <div class="tl-body">Centreras kring Gemini och NotebookLM i bildningsförvaltningen.</div>
+                            <div class="tl-body">Gemini och NotebookLM som grund. Men också: AI-presentation för elevhälsan, lektorsdriven kompetensutveckling, och inbjudan till regionalt förskolenätverk i vår.</div>
                         </div>
                     </div>
                 </div>
