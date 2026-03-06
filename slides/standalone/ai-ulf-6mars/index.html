@@ -1016,23 +1016,29 @@
             </div>`
             },
 
-            // 9. ÄR VI PÅ RÄTT VÄG?
+            // 9. VECKOTEMA
             {
-                id: "bonustema",
-                label: "Är vi på rätt väg?",
+                id: "veckotema",
+                label: "Veckotema vecka 11",
                 render: () => `
-            <div class="cta-final">
-                <h2>Bonustema vecka 10 1/2</h2>
-                <div class="question">
-                    Forumet har fungerat bra för att dela verktyg och jämföra kommuner.<br>
-                    Men vi har inte riktigt kommit dit att vi bygger vidare på varandras erfarenheter.
+            <div class="cta-final" style="position:relative;">
+                <h2 style="color:var(--accent);font-weight:900;">Veckotema vecka 11</h2>
+                <div class="question" style="font-size:clamp(1.3rem, 3vw, 1.8rem); font-weight:700; margin-bottom:1rem;">
+                    Är vi på rätt väg?
                 </div>
-                <div style="background:var(--accent-light); border-radius:var(--radius); padding:2rem 2.5rem; margin-bottom:2rem;">
-                    <p style="font-size:clamp(1.3rem, 3vw, 1.8rem); font-weight:700; color:var(--text); line-height:1.5;">
-                        Vad skulle göra forumet<br>mer relevant för just dig?
+                <p style="max-width:700px; line-height:1.7; margin-bottom:1.5rem;">
+                    Vi har pratat verktyg, delat exempel, jämfört kommuner. Men forumet kan vara mer.
+                    Frågan är vad <em>du</em> vill att det ska vara.
+                </p>
+                <div style="background:var(--accent-light); border-radius:var(--radius); padding:1.5rem 2rem; margin-bottom:1.5rem; text-align:left;">
+                    <p style="font-weight:600; margin-bottom:0.8rem;">Vad skulle göra forumet mer relevant för just dig?</p>
+                    <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">
+                        Fler konkreta exempel? Diskussioner om elevernas AI-vardag?<br>
+                        Kollegial granskning av verktyg? Något helt annat?
                     </p>
                 </div>
-                <div class="note">Det här temat ligger nu i forumet. Ta den tid du behöver.</div>
+                <div class="note">Det här temat läggs upp i forumet nu. Ta den tid du behöver.</div>
+                <button onclick="copyVeckotema()" title="Kopiera veckotema-text" style="position:absolute;top:1rem;right:1rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.7rem;cursor:pointer;font-size:0.9rem;opacity:0.4;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.4" id="copyVeckotemaBtn">&#x1F4CB;</button>
             </div>`
             }
         ];
@@ -1145,6 +1151,32 @@
             } else {
                 target.removeAttribute('contenteditable');
             }
+        }
+
+        // Veckotema copy
+        function copyVeckotema() {
+            const text = `# Veckotema vecka 11: Är vi på rätt väg?
+
+Vi har haft forumet i några månader nu. Vi har delat verktyg, jämfört kommuner, testat saker och berättat om resultaten. Några trådar har fått många svar, andra har mött tystnad.
+
+Nu vill jag vända frågan till er: Vad skulle göra forumet mer relevant för just dig?
+
+- Fler konkreta exempel från klassrummet?
+- Diskussioner om elevernas AI-vardag?
+- Kollegial granskning av verktyg?
+- Mer om forskning och policyer?
+- Något helt annat?
+
+Alla svar är värdefulla, oavsett hur aktiv du har varit hittills. Det är lika intressant att höra från dig som mest läser som från dig som skriver varje vecka.
+
+Välkomna till veckans diskussion! 🧭
+
+(Det är givetvis mer än ok att fylla på i tidigare veckoteman också.)`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyVeckotemaBtn');
+                if (btn) { btn.textContent = '✓'; setTimeout(() => btn.textContent = '📋', 2000); }
+            });
         }
 
         document.addEventListener('keydown', (e) => {
