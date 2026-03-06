@@ -669,6 +669,38 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Export modal */
+        .export-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 300;
+            display: none;
+        }
+
+        .export-overlay.active {
+            display: block;
+        }
+
+        .export-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            width: min(90vw, 800px);
+            max-height: 85vh;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+            z-index: 310;
+            display: none;
+        }
+
+        .export-modal.active {
+            display: block;
+        }
     </style>
 </head>
 
@@ -681,9 +713,24 @@
         <div class="deck-actions">
             <button class="btn-present" onclick="startPresentation()" title="Starta presentation">Presentera</button>
             <button class="btn-icon" onclick="toggleFullscreen()" title="Helskärm">&#x26F6;</button>
+            <button class="btn-icon" onclick="showExport()" title="Exportera HTML">&#x2913;</button>
         </div>
     </div>
     <div class="deck" id="deck"></div>
+
+    <!-- EXPORT MODAL -->
+    <div class="export-overlay" id="exportOverlay" onclick="closeExport()"></div>
+    <div class="export-modal" id="exportModal">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <h3 style="margin:0;font-size:1.1rem;">Exportera HTML</h3>
+            <button class="lb-close" onclick="closeExport()"
+                style="position:static;width:32px;height:32px;">&#x2715;</button>
+        </div>
+        <textarea id="exportCode" readonly
+            style="width:100%;height:60vh;font-family:'SF Mono',monospace;font-size:0.75rem;border:1px solid var(--border);border-radius:8px;padding:1rem;resize:none;background:var(--surface);"></textarea>
+        <button id="exportCopyBtn" onclick="copyExport()"
+            style="margin-top:1rem;padding:0.6rem 1.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:0.9rem;font-weight:600;cursor:pointer;">Kopiera</button>
+    </div>
 
     <!-- LIGHTBOX -->
     <div class="overlay" id="overlay" onclick="closeLightbox()"></div>
@@ -1101,6 +1148,26 @@
                 window._navT = setTimeout(() => presNav.classList.remove('visible'), 3000);
             }
         });
+        // Export
+        function showExport() {
+            const html = document.documentElement.outerHTML;
+            document.getElementById('exportCode').value = '<!DOCTYPE html>\n' + html;
+            document.getElementById('exportOverlay').classList.add('active');
+            document.getElementById('exportModal').classList.add('active');
+        }
+        function closeExport() {
+            document.getElementById('exportOverlay').classList.remove('active');
+            document.getElementById('exportModal').classList.remove('active');
+        }
+        function copyExport() {
+            const ta = document.getElementById('exportCode');
+            ta.select();
+            navigator.clipboard.writeText(ta.value).then(() => {
+                const btn = document.getElementById('exportCopyBtn');
+                btn.textContent = 'Kopierad!';
+                setTimeout(() => btn.textContent = 'Kopiera', 2000);
+            });
+        }
     </script>
 </body>
 
